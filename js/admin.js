@@ -40,6 +40,16 @@ async function iniciar() {
   else vista('login');
 }
 
+// GitHub Pages deja que el navegador guarde cada página 10 minutos: desde el panel,
+// los links a la web agregan ?v=<hora> para abrir siempre lo recién publicado.
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[data-fresco]');
+  if (!a) return;
+  const url = new URL(a.href, location.href);
+  url.searchParams.set('v', Date.now());
+  a.href = url.toString();
+});
+
 function vista(nombre) {
   for (const v of ['login', 'lista', 'editor']) $('#v-' + v).hidden = v !== nombre;
   $('#admin-nav').hidden = nombre === 'login';
@@ -169,7 +179,7 @@ function pintarLista() {
     ].filter(Boolean).join(' ');
     const acciones = [
       `<button class="adm-btn ghost small" type="button" data-editar="${a.id}">Editar</button>`,
-      enWeb(a) && `<a class="adm-btn ghost small" href="${esc(C.sitio + 'autos/' + a.slug + '/')}" target="_blank" rel="noopener">Ver</a>`,
+      enWeb(a) && `<a class="adm-btn ghost small" href="${esc(C.sitio + 'autos/' + a.slug + '/')}" target="_blank" rel="noopener" data-fresco>Ver</a>`,
       ...ESTADOS.filter(([e]) => e !== a.estado).map(([e, l]) => `<button class="adm-btn ghost small" type="button" data-estado="${e}" data-id="${a.id}">${l}</button>`)
     ].filter(Boolean).join('');
     return `<tr>
@@ -249,7 +259,7 @@ function abrir(a) {
   $('#ed-ref').hidden = !a;
   if (a) {
     $('#ed-ref').innerHTML = `Ref. ${JH.ref(a.id)}` + (enWeb(a)
-      ? ` · <a href="${esc(C.sitio + 'autos/' + a.slug + '/')}" target="_blank" rel="noopener">Ver publicación</a>` : '');
+      ? ` · <a href="${esc(C.sitio + 'autos/' + a.slug + '/')}" target="_blank" rel="noopener" data-fresco>Ver publicación</a>` : '');
   }
   $('#guardar').textContent = a ? 'Guardar cambios' : 'Publicar auto';
   $('#borrar-box').hidden = !a;
