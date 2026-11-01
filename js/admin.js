@@ -361,9 +361,16 @@ $('#fotos').addEventListener('click', (e) => {
   pintarFotos();
 });
 
-$('#f-fotos').addEventListener('change', async (e) => {
-  const archivos = [...e.target.files];
-  e.target.value = '';
+// Dos entradas: la galería (varias a la vez) y la cámara del celular (una por vez, se sube al sacarla).
+for (const id of ['#f-fotos', '#f-camara']) {
+  $(id).addEventListener('change', (e) => {
+    const archivos = [...e.target.files];
+    e.target.value = '';
+    subirFotos(archivos);
+  });
+}
+
+async function subirFotos(archivos) {
   const estado = $('#subiendo');
   subiendo += archivos.length;
   $('#guardar').disabled = true;
@@ -388,7 +395,7 @@ $('#f-fotos').addEventListener('change', async (e) => {
   }
   estado.hidden = true;
   if (!subiendo) $('#guardar').disabled = false;
-});
+}
 
 // Achica la foto del celular (3–10 MB) a JPG de ~200 KB, respetando la orientación.
 async function achicar(archivo, max, calidad) {

@@ -102,6 +102,11 @@ select.in{appearance:none;-webkit-appearance:none;padding-right:36px !important;
 .adm-photo .tag{position:absolute;top:6px;left:6px;padding:3px 8px;border-radius:999px;background:#D7201A;color:#fff;font-size:11px;font-weight:700}
 .adm-photo.new{border-style:dashed}
 .adm-photo.removed{opacity:.35}
+/* "Sacar foto" (abre la cámara) solo en pantallas táctiles: en la compu no hay cámara que abrir. */
+.adm-camara{display:none;position:relative;align-self:stretch}
+.adm-camara input{position:absolute;width:1px;height:1px;opacity:0}
+.adm-camara:focus-within{outline:2px solid #F5F5F4;outline-offset:2px}
+@media (pointer: coarse){.adm-camara{display:inline-flex}}
 @media (max-width: 760px){
   .adm-table thead{display:none}
   .adm-table tr{display:grid;grid-template-columns:96px 1fr;gap:4px 12px;padding:12px 0;border-bottom:1px solid #1E1E22}
