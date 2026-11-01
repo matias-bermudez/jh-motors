@@ -39,7 +39,10 @@
 <h1>Autos</h1>
 <span id="conteo" style="font-size: 15px; color: #A1A1AA"></span>
 </div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<button class="adm-btn ghost" type="button" id="abrir-negocio">Datos del negocio</button>
 <button class="adm-btn btn-red" type="button" id="nuevo">+ Cargar auto nuevo</button>
+</div>
 </div>
 <div id="filtro" role="group" aria-label="Filtrar" style="display: flex; flex-wrap: wrap; gap: 8px">
 <button type="button" class="chip toggle" data-f="todos" aria-pressed="true" style="height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px">Todos</button>
@@ -50,6 +53,33 @@
 </div>
 <p style="margin: 0; font-size: 14px; color: #A1A1AA">Lo que guardes se publica solo en la web en unos minutos. Los vendidos salen del catálogo.</p>
 <div id="lista"></div>
+</section>
+
+<section id="v-negocio" hidden style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<button type="button" data-volver style="align-self: flex-start; padding: 0; border: 0; background: none; color: #FF3B30; font: inherit; font-size: 14px; cursor: pointer">← Volver a la lista</button>
+<h1>Datos del negocio</h1>
+</div>
+<p style="margin: 0; font-size: 14px; color: #A1A1AA">Lo que cambies acá se actualiza en toda la web en un par de minutos: botones y mensajes de WhatsApp, el número que se muestra, Instagram y los datos de cada local.</p>
+<form id="f-negocio" novalidate style="display: flex; flex-direction: column; gap: 24px">
+<fieldset class="adm-box">
+<legend>Contacto</legend>
+<div class="adm-grid">
+<label class="adm-field">WhatsApp *<input class="in" name="whatsapp" type="tel" inputmode="tel" required placeholder="Ej.: 099 123 456" autocomplete="off"><small>Es el número al que llegan todas las consultas de la web.</small></label>
+<label class="adm-field">Instagram<input class="in" name="instagram" placeholder="Usuario, sin @" autocomplete="off" autocapitalize="none" spellcheck="false"></label>
+</div>
+</fieldset>
+<fieldset class="adm-box">
+<legend>Locales</legend>
+<div class="adm-grid" id="neg-sedes"></div>
+<p style="margin: 0; font-size: 14px; color: #A1A1AA">Si dejás la dirección o el horario vacíos, no se muestran en la web.</p>
+</fieldset>
+<p class="adm-msg err" id="neg-error" hidden style="margin: 0"></p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<button class="adm-btn btn-red" type="submit" id="guardar-negocio">Guardar</button>
+<button class="adm-btn ghost" type="button" data-volver>Cancelar</button>
+</div>
+</form>
 </section>
 
 <section id="v-editor" hidden style="display: flex; flex-direction: column; gap: 24px">

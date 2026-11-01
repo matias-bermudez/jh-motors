@@ -1,4 +1,4 @@
-// Panel del dueño (/admin/): login, lista de autos, alta/edición/baja y fotos.
+// Panel del dueño (/admin/): login, lista de autos, alta/edición/baja, fotos y datos del negocio.
 // Los permisos los pone el esquema de la Plataforma Automotoras: solo los emails de la tabla admins
 // con permiso sobre 'jh-motors' pueden escribir. La web pública no lee de acá en vivo:
 // scripts/generar.js la regenera cuando se guarda un auto.
@@ -51,7 +51,7 @@ document.addEventListener('click', (e) => {
 });
 
 function vista(nombre) {
-  for (const v of ['login', 'lista', 'editor']) $('#v-' + v).hidden = v !== nombre;
+  for (const v of ['login', 'lista', 'editor', 'negocio']) $('#v-' + v).hidden = v !== nombre;
   $('#admin-nav').hidden = nombre === 'login';
   window.scrollTo(0, 0);
 }
@@ -80,6 +80,9 @@ function llenarOpciones() {
   $('#equipamiento').innerHTML = JH.OPCIONES.equipamiento.map((e) =>
     `<label class="adm-check"><input type="checkbox" name="equip" value="${esc(e)}"> ${esc(e)}</label>`).join('');
   form.elements.carroceria.value = 'Sedán';
+  $('#neg-sedes').innerHTML = C.sedes.map((s, i) => `
+    <label class="adm-field">Dirección local ${esc(s.nombre)}<input class="in" name="direccion-${i}" placeholder="Ej.: Ruta 6 km 25" autocomplete="off"></label>
+    <label class="adm-field">Horario local ${esc(s.nombre)}<input class="in" name="horario-${i}" placeholder="Ej.: Lunes a sábado de 9 a 19 h" autocomplete="off"></label>`).join('');
 }
 
 // ---- Login ----
@@ -222,6 +225,78 @@ $('#lista').addEventListener('click', async (e) => {
 });
 
 $('#nuevo').addEventListener('click', () => abrir(null));
+
+// ---- Datos del negocio ----
+// Se guardan en la tabla `negocios`; al publicar pisan a config.js en toda la web (scripts/generar.js).
+// La dirección y el horario de cada local van en extra.sedes; las columnas direccion y horario
+// llevan un resumen de los dos locales para quien mire la tabla.
+
+const fNegocio = $('#f-negocio');
+// Textos de relleno del diseño ("[HORARIO]"): no se precargan.
+const relleno = (s) => !s || /^\[.*\]$/.test(s);
+let negocio = null;
+
+$('#abrir-negocio').addEventListener('click', async () => {
+  error($('#neg-error'));
+  const { data, error: err } = await sb.from('negocios').select('*').eq('concesionaria', CONCESIONARIA).maybeSingle();
+  if (err) return aviso('No se pudieron leer los datos del negocio: ' + err.message);
+  negocio = data;
+  // Sin fila todavía: se muestra lo que hoy publica la web (config.js).
+  const el = fNegocio.elements;
+  el.whatsapp.value = (data && data.telefono) || C.whatsappLabel || '';
+  el.instagram.value = (data && data.instagram) || C.instagram || '';
+  const sedes = (data && data.extra && data.extra.sedes) || {};
+  C.sedes.forEach((s, i) => {
+    for (const k of ['direccion', 'horario']) {
+      const val = sedes[s.nombre] && typeof sedes[s.nombre][k] === 'string' ? sedes[s.nombre][k] : s[k];
+      el[`${k}-${i}`].value = relleno(val) ? '' : val;
+    }
+  });
+  vista('negocio');
+});
+
+document.querySelectorAll('[data-volver]').forEach((b) => b.addEventListener('click', () => vista('lista')));
+
+// "095 407 252", "+598 95 407 252" o "2303 6119" → { whatsapp: '59895407252', telefono: '095 407 252' }.
+function telefonoUY(texto) {
+  let d = texto.replace(/\D/g, '');
+  if (d.startsWith('598')) d = d.slice(3);
+  if (d.startsWith('0')) d = d.slice(1);
+  if (!/^[0-9]{8}$/.test(d)) return null;
+  const telefono = d.startsWith('9') ? `0${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}` : `${d.slice(0, 4)} ${d.slice(4)}`;
+  return { whatsapp: '598' + d, telefono };
+}
+
+fNegocio.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  error($('#neg-error'));
+  const el = fNegocio.elements;
+  const tel = telefonoUY(el.whatsapp.value);
+  if (!tel) return error($('#neg-error'), 'El WhatsApp tiene que ser un número de Uruguay, por ejemplo 099 123 456.');
+  const sedes = {};
+  C.sedes.forEach((s, i) => {
+    sedes[s.nombre] = { direccion: el[`direccion-${i}`].value.trim(), horario: el[`horario-${i}`].value.trim() };
+  });
+  const resumen = (k) => C.sedes.filter((s) => sedes[s.nombre][k]).map((s) => `${s.nombre}: ${sedes[s.nombre][k]}`).join(' · ').slice(0, 200) || null;
+  const fila = {
+    concesionaria: CONCESIONARIA,
+    ...tel,
+    // Usuario de Instagram: sirve también si pegan el link del perfil.
+    instagram: el.instagram.value.trim().replace(/^.*instagram\.com\//, '').replace(/[/?#].*$/, '').replace(/^@/, '') || null,
+    direccion: resumen('direccion'),
+    horario: resumen('horario'),
+    // Se conservan los datos de extra que este panel no maneja.
+    extra: Object.assign({}, negocio && negocio.extra, { sedes })
+  };
+  $('#guardar-negocio').disabled = true;
+  const { error: err } = await sb.from('negocios').upsert(fila, { onConflict: 'concesionaria' });
+  $('#guardar-negocio').disabled = false;
+  if (err) return error($('#neg-error'), 'No se pudo guardar: ' + err.message);
+  Object.assign(C, { whatsapp: tel.whatsapp, whatsappLabel: tel.telefono, instagram: fila.instagram || C.instagram });
+  C.sedes = C.sedes.map((s) => Object.assign({}, s, sedes[s.nombre]));
+  aviso('Guardado. En un par de minutos se actualiza en toda la web.');
+  vista('lista');
+});
 
 // ---- Editor ----
 

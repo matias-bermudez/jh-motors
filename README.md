@@ -27,6 +27,8 @@ Es parte de la **Plataforma Automotoras** (`~/Proyectos/plataforma-automotoras`)
 
 Después de cambiar algo, push a `main` y se publica solo.
 
+**Datos del negocio desde el panel:** lo que el dueño guarda en *Datos del negocio* (tabla `negocios` de la base) pisa a `config.js` al publicar, en todo el HTML y en el `config.js` que usa el navegador: `whatsapp`/`whatsappLabel` (columnas `whatsapp` y `telefono`), `instagram` y la dirección y el horario de cada local (`extra.sedes`, ej. `{"Toledo": {"direccion": "...", "horario": "..."}}`; las columnas `direccion` y `horario` llevan un resumen). Si la tabla o la fila no existen, se usa `config.js`. Ningún número está escrito en las plantillas ni en el JS: todo sale de la config.
+
 ## Panel (`/admin/`)
 
 - Se entra con email y contraseña de Supabase. El usuario tiene que estar en la tabla `admins` con `jh-motors` (o `*`).
@@ -34,6 +36,9 @@ Después de cambiar algo, push a `main` y se publica solo.
 - Fotos: se achican en el navegador (1600 px + miniatura de 640 px) y se suben a `fotos/jh-motors/`. Se ordenan con flechas; la primera es la portada.
 - Estados: **disponible**, **reservado** (sigue en el catálogo con el cartel) y **vendido** (sale de la web; su link cae en el 404). "Se ve en la web" sin tildar = borrador.
 - **Destacado**: la foto de ese auto aparece grande en el inicio.
+- **Sacar foto**: en el celular (pantallas táctiles) hay un botón que abre la cámara trasera y sube la foto al sacarla, además de "Agregar fotos" (galería).
+- **Datos del negocio**: WhatsApp (se escribe como en Uruguay, "099 571 202", y se guarda `59899571202` / `099 571 202`), Instagram y dirección y horario de cada local. Guardar republica la web.
+- Los links a la web ("Ver web", "Ver") agregan `?v=<hora>` para no ver la copia en caché del navegador.
 
 Lo propio de JH que no es una columna de la base va en `autos.extra`: `version`, `potencia`, `sede`, `financiable`, `padron`, `service`, `documentacion`, `llaves`, `garantia`. La columna `modelo` guarda modelo + versión ("T-Cross Highline 1.4 TSI").
 
@@ -48,7 +53,7 @@ node scripts/generar.js --local
 python3 -m http.server 8793 -d _site   # → http://localhost:8793
 ```
 
-Para probar sin la base: `AUTOS_JSON=filas.json node scripts/generar.js --local` (filas con el mismo formato que devuelve la API de Supabase).
+Para probar sin la base: `AUTOS_JSON=filas.json node scripts/generar.js --local` (filas con el mismo formato que devuelve la API de Supabase). `NEGOCIO_JSON=fila.json` hace lo mismo con la fila de `negocios`.
 
 ## SEO
 
