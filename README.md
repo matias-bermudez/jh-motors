@@ -4,7 +4,7 @@ Web de JH Motors (Toledo y Atlántida, Canelones): catálogo con filtros, ficha 
 
 Es parte de la **Plataforma Automotoras** (`~/Proyectos/plataforma-automotoras`): misma arquitectura y misma base que DN Automóviles.
 
-**Web:** https://matias-bermudez.github.io/jh-motors/ (cuando el repo sea público y Pages esté activo)
+**Web:** https://matias-bermudez.github.io/jh-motors/
 
 ## Cómo funciona
 

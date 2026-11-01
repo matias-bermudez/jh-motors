@@ -2,7 +2,7 @@
 
 Web para **JH Motors** (automotora, locales en Toledo y Atlántida, Canelones). Diseño de Claude Design en `design/` (no cambiarlo).
 
-- Repo: https://github.com/matias-bermudez/jh-motors (privado por ahora; Matías decide cuándo hacerlo público para Pages)
+- Repo: https://github.com/matias-bermudez/jh-motors (público: GitHub Pages gratis no publica repos privados)
 - Web: https://matias-bermudez.github.io/jh-motors/
 - Seguimiento: issues del repo. Los commits cierran issues con `Closes #N`.
 
@@ -16,7 +16,6 @@ o se pide la columna en el repo de la plataforma. No hay acceso de escritura a l
 
 Sitio estático generado por `scripts/generar.js` (Node 18+, sin dependencias) → `_site/` (no se commitea).
 GitHub Actions (`publicar.yml`, igual al de DN) lo publica en Pages en push, `workflow_dispatch` (trigger de Supabase) y cron de 15 min "solo si cambió".
-**El workflow está desactivado en GitHub mientras el repo sea privado** (`gh workflow enable publicar.yml` al hacerlo público).
 
 | Archivo | Qué es |
 |---|---|
@@ -39,4 +38,5 @@ Capturas: Playwright de `/Users/matibermudez/Proyectos/TapStore-listas/node_modu
 
 - 2026-10-31: primera versión con Express + EJS + SQLite + sharp.
 - 2026-11-01: pasa a la Plataforma Automotoras (issues #1–#5): sitio estático, panel con Supabase, ejemplos en SQL, workflow (desactivado hasta hacer público el repo). Servidor viejo eliminado.
-- Pendiente (#4): repo público + Pages, registrar `sitio`/`repo` en `concesionarias`, sumar el repo al token de GitHub, usuario del dueño.
+- 2026-11-01: repo público, Pages (fuente GitHub Actions) y workflow activados; primera publicación OK (0 autos en la base).
+- Pendiente (#4): registrar `sitio`/`repo` en `concesionarias`, sumar el repo al token de GitHub, usuario del dueño.
