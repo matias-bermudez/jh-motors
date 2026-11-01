@@ -403,6 +403,15 @@ function generarPaginas() {
     robots: '<meta name="robots" content="noindex">'
   });
 
+  // Panel del dueño
+  pagina('admin.html', 'admin/', {
+    titulo: 'Panel · JH Motors',
+    descripcion: 'Panel de administración de JH Motors.',
+    robots: '<meta name="robots" content="noindex, nofollow">',
+    js: ['config', 'common'],
+    v: { css: v('css/site.css'), admin: v('js/admin.js') }
+  });
+
   // Direcciones cortas que llevan a otra página.
   redirigir('autos/', '#catalogo');
   redirigir('vender/', 'vende-tu-auto/');

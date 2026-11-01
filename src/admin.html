@@ -1,0 +1,164 @@
+{{> head}}
+<div class="adm">
+<header style="background: rgba(10,10,11,0.94); border-bottom: 1px solid #1F1F23">
+<div style="max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px">
+<a href="{{raiz}}" target="_blank" rel="noopener" aria-label="JH Motors, ver la web" style="display: flex; align-items: baseline; gap: 7px; text-decoration: none">
+<span style="font-family: 'Bodoni Moda', Didot, serif; font-weight: 700; font-size: 28px; line-height: 1; color: #FFFFFF">JH</span>
+<span style="font-stretch: 115%; font-weight: 800; font-size: 17px; line-height: 1; letter-spacing: 0.03em; color: #FF3B30">MOTORS</span>
+<span style="margin-left: 6px; font-size: 13px; color: #A1A1AA">Administración</span>
+</a>
+<nav id="admin-nav" hidden style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; font-size: 15px">
+<a class="nav" href="{{raiz}}" target="_blank" rel="noopener">Ver web</a>
+<button class="adm-btn ghost small" type="button" id="salir">Salir</button>
+</nav>
+</div>
+</header>
+
+<main class="adm-wrap">
+
+<p class="adm-msg err" id="sin-config" hidden>Falta conectar Supabase: completá <code>supabaseUrl</code> y <code>supabaseKey</code> en <code>js/config.js</code>.</p>
+<p id="cargando" style="margin: 0; color: #A1A1AA">Cargando…</p>
+
+<section id="v-login" hidden style="width: 100%; max-width: 440px; margin: 40px auto 0; display: flex; flex-direction: column; gap: 24px">
+<h1>Ingresar</h1>
+<form id="f-login" class="adm-box">
+<label class="adm-field">Email
+<input class="in" type="email" name="email" autocomplete="username" required>
+</label>
+<label class="adm-field">Contraseña
+<input class="in" type="password" name="password" autocomplete="current-password" required>
+</label>
+<button class="adm-btn btn-red" type="submit">Entrar</button>
+<p class="adm-msg err" id="login-error" hidden style="margin: 0"></p>
+</form>
+</section>
+
+<section id="v-lista" hidden style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1>Autos</h1>
+<span id="conteo" style="font-size: 15px; color: #A1A1AA"></span>
+</div>
+<button class="adm-btn btn-red" type="button" id="nuevo">+ Cargar auto nuevo</button>
+</div>
+<div id="filtro" role="group" aria-label="Filtrar" style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" class="chip toggle" data-f="todos" aria-pressed="true" style="height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px">Todos</button>
+<button type="button" class="chip toggle" data-f="disponible" aria-pressed="false" style="height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px">Disponibles</button>
+<button type="button" class="chip toggle" data-f="reservado" aria-pressed="false" style="height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px">Reservados</button>
+<button type="button" class="chip toggle" data-f="vendido" aria-pressed="false" style="height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px">Vendidos</button>
+<button type="button" class="chip toggle" data-f="oculto" aria-pressed="false" style="height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px">Ocultos</button>
+</div>
+<p style="margin: 0; font-size: 14px; color: #A1A1AA">Lo que guardes se publica solo en la web en unos minutos. Los vendidos salen del catálogo.</p>
+<div id="lista"></div>
+</section>
+
+<section id="v-editor" hidden style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<button type="button" id="volver" style="align-self: flex-start; padding: 0; border: 0; background: none; color: #FF3B30; font: inherit; font-size: 14px; cursor: pointer">← Volver a la lista</button>
+<h1 id="ed-titulo">Cargar auto nuevo</h1>
+<span id="ed-ref" hidden style="font-size: 15px; color: #A1A1AA"></span>
+</div>
+
+<form id="f-auto" novalidate style="display: flex; flex-direction: column; gap: 24px">
+
+<fieldset class="adm-box">
+<legend>Datos del auto</legend>
+<div class="adm-grid">
+<label class="adm-field">Marca *
+<input class="in" name="marca" list="marcas" required placeholder="Ej.: Volkswagen" autocomplete="off">
+<datalist id="marcas"></datalist>
+</label>
+<label class="adm-field">Modelo *<input class="in" name="modelo" required placeholder="Ej.: T-Cross" autocomplete="off"></label>
+<label class="adm-field">Versión<input class="in" name="version" placeholder="Ej.: Highline 1.4 TSI" autocomplete="off"></label>
+<label class="adm-field">Año *<input class="in" name="anio" type="text" inputmode="numeric" required placeholder="Ej.: 2022" autocomplete="off"></label>
+<label class="adm-field">Kilómetros<input class="in" name="km" type="text" inputmode="numeric" placeholder="Ej.: 32.000" autocomplete="off"></label>
+<label class="adm-field">Carrocería<select class="in" name="carroceria" data-opciones="carrocerias"></select></label>
+<label class="adm-field">Combustible<select class="in" name="combustible" data-opciones="combustibles"></select></label>
+<label class="adm-field">Transmisión<select class="in" name="transmision" data-opciones="transmisiones"></select></label>
+<label class="adm-field">Cantidad de marchas<input class="in" name="marchas" type="text" inputmode="numeric" placeholder="Ej.: 6" autocomplete="off"></label>
+<label class="adm-field">Motor<input class="in" name="motor" placeholder="Ej.: 1.4 TSI turbo" autocomplete="off"></label>
+<label class="adm-field">Potencia<input class="in" name="potencia" placeholder="Ej.: 150 CV" autocomplete="off"></label>
+<label class="adm-field">Tracción<select class="in" name="traccion" data-opciones="tracciones" data-vacio="—"></select></label>
+<label class="adm-field">Puertas<input class="in" name="puertas" type="text" inputmode="numeric" placeholder="Ej.: 5" autocomplete="off"></label>
+<label class="adm-field">Color<input class="in" name="color" placeholder="Ej.: Blanco" autocomplete="off"></label>
+<label class="adm-field">Empadronado en<select class="in" name="padron" data-opciones="departamentos" data-vacio="—"></select></label>
+</div>
+</fieldset>
+
+<fieldset class="adm-box">
+<legend>Precio y publicación</legend>
+<div class="adm-grid">
+<label class="adm-field">Precio contado<input class="in" name="precio" type="text" inputmode="numeric" placeholder="Ej.: 29.900" autocomplete="off"><small>Vacío = "Consultar".</small></label>
+<label class="adm-field">Moneda
+<select class="in" name="moneda"><option value="USD">Dólares (U$S)</option><option value="UYU">Pesos uruguayos ($)</option></select>
+</label>
+<label class="adm-field">Local<select class="in" name="sede" data-opciones="sedes"></select></label>
+<label class="adm-field">Estado
+<select class="in" name="estado"><option value="disponible">Disponible</option><option value="reservado">Reservado</option><option value="vendido">Vendido</option></select>
+<small>Los vendidos salen del catálogo.</small>
+</label>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px 28px">
+<label class="adm-check"><input type="checkbox" name="publicado" checked> Se ve en la web (sin tildar = borrador)</label>
+<label class="adm-check"><input type="checkbox" name="financiable" checked> Se puede financiar</label>
+<label class="adm-check"><input type="checkbox" name="acepta_permuta"> Acepta permuta</label>
+<label class="adm-check"><input type="checkbox" name="destacado"> Destacado (foto grande en el inicio)</label>
+</div>
+</fieldset>
+
+<fieldset class="adm-box">
+<legend>Fotos</legend>
+<p style="margin: 0; font-size: 14px; color: #A1A1AA">La primera es la portada. Usá las flechas para ordenarlas. Podés subir varias juntas directo del celular; se achican solas antes de subir.</p>
+<div class="adm-photos" id="fotos"></div>
+<label class="adm-field">Agregar fotos
+<input class="in" type="file" id="f-fotos" accept="image/*" multiple style="height: auto; padding: 12px 14px">
+</label>
+<p id="subiendo" hidden style="margin: 0; font-size: 14px; color: #F5C76B"></p>
+</fieldset>
+
+<fieldset class="adm-box">
+<legend>Estado y documentación</legend>
+<div class="adm-grid">
+<label class="adm-field">Dueños anteriores<input class="in" name="duenos" type="text" inputmode="numeric" placeholder="Ej.: 1" autocomplete="off"></label>
+<label class="adm-field">Service<input class="in" name="service" placeholder="Ej.: Al día, en agencia" autocomplete="off"></label>
+<label class="adm-field">Documentación<input class="in" name="documentacion" placeholder="Ej.: Al día, libre de deudas" autocomplete="off"></label>
+<label class="adm-field">Llaves<input class="in" name="llaves" placeholder="Ej.: 2 juegos" autocomplete="off"></label>
+<label class="adm-field">Garantía<input class="in" name="garantia" placeholder="Ej.: 3 meses motor y caja" autocomplete="off"></label>
+</div>
+</fieldset>
+
+<fieldset class="adm-box">
+<legend>Equipamiento</legend>
+<div class="adm-checks" id="equipamiento"></div>
+<label class="adm-field">Otros (uno por renglón)
+<textarea class="in" name="equip_extra" rows="4" placeholder="Ej.: Llantas de aleación 17 pulgadas"></textarea>
+</label>
+</fieldset>
+
+<fieldset class="adm-box">
+<legend>Comentarios del vendedor</legend>
+<label class="adm-field"><span class="sr-only">Comentarios</span>
+<textarea class="in" name="descripcion" rows="5" placeholder="Estado general, por qué es una buena compra, detalles a tener en cuenta..."></textarea>
+</label>
+</fieldset>
+
+<p class="adm-msg err" id="ed-error" hidden style="margin: 0"></p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; position: sticky; bottom: 0; padding: 16px 0; background: linear-gradient(transparent, #0A0A0B 30%)">
+<button class="adm-btn btn-red" type="submit" id="guardar">Publicar auto</button>
+<button class="adm-btn ghost" type="button" id="cancelar">Cancelar</button>
+</div>
+</form>
+
+<div class="adm-box" id="borrar-box" hidden style="border-color: #3B1A17">
+<h2>Eliminar publicación</h2>
+<p style="margin: 0; font-size: 14px; color: #A1A1AA">Borra el auto y sus fotos para siempre. Si se vendió, mejor marcalo como <strong>vendido</strong>.</p>
+<div><button class="adm-btn danger" type="button" id="borrar">Eliminar auto</button></div>
+</div>
+</section>
+
+</main>
+</div>
+<div class="adm-toast" id="toast" role="status" hidden></div>
+<script type="module" src="{{raiz}}js/admin.js?v={{v.admin}}"></script>
+</body>
+</html>
