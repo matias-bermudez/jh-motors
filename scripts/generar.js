@@ -126,7 +126,8 @@ function configDeNegocio(n) {
 // Los vendidos y los borradores no llegan con la clave pública; igual se filtran por si vienen de AUTOS_JSON.
 function deFila(r) {
   if (r.publicado === false || r.estado === 'vendido') return null;
-  const falta = ['slug', 'marca', 'modelo', 'anio', 'combustible', 'transmision'].filter((k) => r[k] === null || r[k] === undefined || r[k] === '');
+  // El año puede faltar (el dueño no lo sabe): se muestra "A consultar".
+  const falta = ['slug', 'marca', 'modelo', 'combustible', 'transmision'].filter((k) => r[k] === null || r[k] === undefined || r[k] === '');
   if (falta.length || !TIPOS.includes(r.tipo)) {
     console.warn(`Aviso: se saltea el auto ${r.id} (${r.marca} ${r.modelo}), falta: ${falta.join(', ') || 'tipo'}`);
     return null;
@@ -139,7 +140,7 @@ function deFila(r) {
   return {
     id: r.id, slug: r.slug, ref: JH.ref(r.id), ruta, url: SITIO + ruta,
     marca: r.marca, modelo, version, anio: r.anio,
-    titulo: `${r.marca} ${modelo} ${r.anio}`,
+    titulo: [r.marca, modelo, r.anio].filter(Boolean).join(' '),
     nombreLargo: [r.marca, modelo, version, r.anio].filter(Boolean).join(' '),
     // extra.sin_km: el dueño no sabe los km (campo vacío en el panel). Un 0 escrito es un 0 km.
     km: r.km || 0, sinKm: x.sin_km === true,
@@ -347,7 +348,7 @@ function autoLd(a, descripcion) {
     brand: { '@type': 'Brand', name: a.marca },
     model: a.modelo,
     vehicleConfiguration: a.version || undefined,
-    vehicleModelDate: String(a.anio),
+    vehicleModelDate: a.anio ? String(a.anio) : undefined,
     bodyType: a.carroceria,
     fuelType: a.combustible,
     vehicleTransmission: a.transmision,
@@ -385,7 +386,7 @@ function card(a, i, raiz) {
   const dato = (ic, t) => `<span style="display: flex; align-items: center; gap: 8px">${ic}${esc(t)}</span>`;
   return `<a class="card" href="${esc(autoHref(a, raiz))}" data-car
   data-marca="${esc(a.marca)}" data-comb="${esc(a.combustible)}" data-caja="${esc(a.transmision)}" data-tipo="${esc(a.carroceria)}"
-  data-precio="${a.dolares ? Math.round(a.dolares) : ''}" data-km="${a.sinKm ? '' : a.km}" data-anio="${a.anio}" data-orden="${i}"
+  data-precio="${a.dolares ? Math.round(a.dolares) : ''}" data-km="${a.sinKm ? '' : a.km}" data-anio="${a.anio || ''}" data-orden="${i}"
   data-q="${esc((a.marca + ' ' + a.modelo + ' ' + a.version).toLowerCase())}"
   style="display: flex; flex-direction: column; background: #131315; border: 1px solid #232327; border-radius: 16px; overflow: hidden; text-decoration: none; color: #F5F5F4">
 <div class="ph" style="position: relative; aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center">
@@ -406,7 +407,7 @@ ${a.reservado ? '<span style="padding: 5px 10px; border-radius: 999px; backgroun
 <span style="font-size: 14px; color: #A1A1AA">${esc(a.version)}</span>
 </div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 12px; font-size: 14px; color: #D4D4D8">
-${dato(icon.calendar(), a.anio)}
+${dato(icon.calendar(), a.anio || 'Año a consultar')}
 ${dato(icon.gauge(), a.kmFmt)}
 ${dato(icon.fuel(), a.combustible)}
 ${dato(icon.gearbox(), a.transmision)}
@@ -585,7 +586,7 @@ ${fotos.map((f, i) => `<button type="button" class="thumb ph" aria-pressed="${i 
 </div>`
     : '';
 
-  const claves = [['Año', a.anio], ['Kilómetros', a.kmFmt], ['Combustible', a.combustible], ['Transmisión', a.transmision]]
+  const claves = [['Año', a.anio || 'A consultar'], ['Kilómetros', a.kmFmt], ['Combustible', a.combustible], ['Transmisión', a.transmision]]
     .map(([l, val]) => `<div style="background: #0A0A0B; border: 1px solid #222226; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px">
 <span style="font-size: 12px; color: #A1A1AA">${l}</span>
 <span style="font-size: 16px; font-weight: 700">${esc(val)}</span>
@@ -609,7 +610,7 @@ ${fotos.map((f, i) => `<button type="button" class="thumb ph" aria-pressed="${i 
 </div>`;
   const hay = ([, val]) => val !== '' && val !== null && val !== undefined && val !== false;
   const ficha = [
-    ['Marca', a.marca], ['Modelo', a.modelo], ['Versión', a.version], ['Año', a.anio],
+    ['Marca', a.marca], ['Modelo', a.modelo], ['Versión', a.version], ['Año', a.anio || 'A consultar'],
     ['Kilometraje', a.kmFmt], ['Combustible', a.combustible],
     ['Transmisión', a.transmision + (a.marchas ? `, ${a.marchas} velocidades` : '')],
     ['Motor', a.motor], ['Potencia', a.potencia], ['Tracción', a.traccion], ['Carrocería', a.carroceria],
@@ -661,7 +662,7 @@ ${o.fotos.length
     nav: { catalogo: ' style="color: #FFFFFF"', vender: '' },
     js: ['galeria'],
     a: {
-      ref: a.ref, marca: esc(a.marca), modelo: esc(a.modelo), version: esc(a.version), anio: a.anio,
+      ref: a.ref, marca: esc(a.marca), modelo: esc(a.modelo), version: esc(a.version), anio: a.anio || '',
       titulo: esc(a.titulo), carroceria: esc(a.carroceria),
       tipoHref: esc(raiz + '?tipo=' + encodeURIComponent(a.carroceria) + '#catalogo'),
       sedePill: a.sede ? `<span style="padding: 6px 12px; border-radius: 999px; border: 1px solid #2E2E33; font-size: 13px; color: #D4D4D8; display: inline-flex; align-items: center; gap: 6px">

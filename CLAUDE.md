@@ -44,3 +44,4 @@ Capturas: Playwright de `/Users/matibermudez/Proyectos/TapStore-listas/node_modu
 - 2026-11-01: al nivel de DN (reglas 12 y 13, #6–#9): datos del negocio desde la tabla `negocios` (la tabla todavía no existe en la base: hasta correr el schema se usa config.js), pantalla "Datos del negocio", botón "Sacar foto", links del panel con `?v=`.
 - Pendiente (#4): registrar `sitio`/`repo` en `concesionarias`, sumar el repo al token de GitHub, usuario del dueño.
 - 2026-11-01: primeros autos reales (VW New Beetle 2017, GWM ORA 03 2026); se borran los 12 de ejemplo. Km vacío en el panel = "Km a consultar" (`extra.sin_km`, sin km en el JSON-LD); un 0 escrito es 0 km. El local se puede dejar "Sin indicar".
+- 2026-11-01: el año también es opcional (la base acepta `anio` null): "A consultar" en la web, al final al ordenar por año, slug sin año.

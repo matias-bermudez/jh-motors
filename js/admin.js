@@ -188,7 +188,7 @@ function pintarLista() {
     return `<tr>
 <td>${media}</td>
 <td>
-<button type="button" data-editar="${a.id}" style="padding: 0; border: 0; background: none; color: #F5F5F4; font: inherit; font-weight: 700; text-align: left; cursor: pointer">${esc(a.marca + ' ' + a.modelo + ' ' + a.anio)}</button>
+<button type="button" data-editar="${a.id}" style="padding: 0; border: 0; background: none; color: #F5F5F4; font: inherit; font-weight: 700; text-align: left; cursor: pointer">${esc([a.marca, a.modelo, a.anio].filter(Boolean).join(' '))}</button>
 <div style="font-size: 13px; color: #A1A1AA">${esc(datos)}</div>
 ${marcas ? `<div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px">${marcas}</div>` : ''}
 </td>
@@ -332,7 +332,7 @@ function abrir(a) {
     for (const c of form.querySelectorAll('[name="equip"]')) c.checked = a.equipamiento.includes(c.value);
     el.equip_extra.value = a.equipamiento.filter((e) => !lista.includes(e)).join('\n');
   }
-  $('#ed-titulo').textContent = a ? `${a.marca} ${a.modelo} ${a.anio}` : 'Cargar auto nuevo';
+  $('#ed-titulo').textContent = a ? [a.marca, a.modelo, a.anio].filter(Boolean).join(' ') : 'Cargar auto nuevo';
   $('#ed-ref').hidden = !a;
   if (a) {
     $('#ed-ref').innerHTML = `Ref. ${JH.ref(a.id)}` + (enWeb(a)
@@ -378,15 +378,15 @@ form.addEventListener('submit', async (e) => {
   error($('#ed-error'));
   if (subiendo) return error($('#ed-error'), 'Esperá a que terminen de subir las fotos.');
   const fila = datosDelForm();
-  const falta = [['marca', 'marca'], ['modelo', 'modelo'], ['anio', 'año']].filter(([k]) => !fila[k]).map(([, l]) => l);
+  const falta = [['marca', 'marca'], ['modelo', 'modelo']].filter(([k]) => !fila[k]).map(([, l]) => l);
   if (falta.length) return error($('#ed-error'), 'Completá: ' + falta.join(', ') + '.');
   const max = new Date().getFullYear() + 1;
-  if (fila.anio < 1950 || fila.anio > max) return error($('#ed-error'), `El año tiene que estar entre 1950 y ${max}.`);
+  if (fila.anio !== null && (fila.anio < 1950 || fila.anio > max)) return error($('#ed-error'), `El año tiene que estar entre 1950 y ${max}.`);
 
   $('#guardar').disabled = true;
   // El slug es la URL del auto (/autos/<slug>/): marca-modelo-año. Se mantiene mientras no cambien
   // esos datos; si cambian, se actualiza. Si ya existe otro igual, se le agrega -2, -3...
-  const base = JH.slug(`${fila.marca} ${fila.modelo} ${fila.anio}`);
+  const base = JH.slug([fila.marca, fila.modelo, fila.anio].filter(Boolean).join(' '));
   const mismo = actual && (actual.slug === base || /^-\d+$/.test(actual.slug.slice(base.length)) && actual.slug.startsWith(base));
   let err;
   for (let n = 1; n < 20; n++) {
@@ -416,7 +416,7 @@ async function cancelar() {
 }
 
 $('#borrar').addEventListener('click', async () => {
-  if (!confirm(`¿Eliminar ${actual.marca} ${actual.modelo} ${actual.anio} y sus fotos para siempre?\n\nSi se vendió, mejor cambiá el estado a "Vendido".`)) return;
+  if (!confirm(`¿Eliminar ${[actual.marca, actual.modelo, actual.anio].filter(Boolean).join(' ')} y sus fotos para siempre?\n\nSi se vendió, mejor cambiá el estado a "Vendido".`)) return;
   const { error: err } = await sb.from('autos').delete().eq('id', actual.id);
   if (err) return error($('#ed-error'), 'No se pudo borrar: ' + err.message);
   await borrarArchivos([...actual.fotos, ...nuevas]);

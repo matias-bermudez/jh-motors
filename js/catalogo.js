@@ -12,6 +12,8 @@
   var num = function (el, k) { return Number(el.getAttribute('data-' + k)); };
   // data-precio va en dólares (los autos en pesos se convierten); vacío = "Consultar", siempre al final.
   // data-km vacío = "Km a consultar", siempre al final.
+  // data-anio vacío = "A consultar", siempre al final.
+  var anioDe = function (el) { var v = el.getAttribute('data-anio'); return v ? Number(v) : -Infinity; };
   var kmDe = function (el) { var v = el.getAttribute('data-km'); return v ? Number(v) : Infinity; };
   var precio = function (el, sinPrecio) { var v = el.getAttribute('data-precio'); return v ? Number(v) : sinPrecio; };
   var SORTS = {
@@ -19,7 +21,7 @@
     precioAsc: function (a, b) { return precio(a, Infinity) - precio(b, Infinity) || 0; },
     precioDesc: function (a, b) { return precio(b, -Infinity) - precio(a, -Infinity) || 0; },
     km: function (a, b) { return kmDe(a) - kmDe(b) || 0; },
-    anio: function (a, b) { return num(b, 'anio') - num(a, 'anio'); }
+    anio: function (a, b) { return anioDe(b) - anioDe(a) || 0; }
   };
 
   function hasOption(sel, v) {
