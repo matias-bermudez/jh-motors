@@ -1,5 +1,8 @@
 // Datos del negocio. Después de cambiar algo hay que publicar (push a main): el sitio se regenera solo.
 //
+// Lo que el dueño carga en el panel (Datos del negocio → tabla `negocios` de Supabase) pisa a estos valores
+// al publicar: whatsapp, whatsappLabel, instagram y la dirección y el horario de cada local.
+//
 // whatsapp: número de PRUEBA de Matías (091 969 322). El de JH Motors es 59899571202 / 099 571 202:
 // cambiarlo recién cuando se lance la web.
 window.JH_CONFIG = {

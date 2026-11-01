@@ -6,8 +6,9 @@
 //
 //   node scripts/generar.js                   → para publicar
 //   node scripts/generar.js --local           → para probar: python3 -m http.server 8792 -d _site
-//   SOLO_SI_CAMBIO=1 node scripts/generar.js  → no hace nada si los autos no cambiaron desde la última publicación
+//   SOLO_SI_CAMBIO=1 node scripts/generar.js  → no hace nada si los autos y los datos del negocio no cambiaron desde la última publicación
 //   AUTOS_JSON=filas.json node scripts/generar.js --local → usa esas filas (mismo formato que la API) en vez de Supabase
+//   NEGOCIO_JSON=fila.json node scripts/generar.js --local → usa esa fila de `negocios` en vez de la de Supabase
 //
 // Sin dependencias, solo Node 18+.
 const fs = require('fs');
@@ -41,16 +42,19 @@ let AUTOS;
 
 async function main() {
   // ---- Datos ----
-  const filas = process.env.AUTOS_JSON
-    ? JSON.parse(fs.readFileSync(process.env.AUTOS_JSON, 'utf8'))
-    : await leerSupabase();
+  const [filas, negocio] = await Promise.all([
+    process.env.AUTOS_JSON ? JSON.parse(fs.readFileSync(process.env.AUTOS_JSON, 'utf8')) : leerSupabase(),
+    leerNegocio()
+  ]);
+  // Los datos del negocio de la base pisan a js/config.js en todas las páginas.
+  Object.assign(C, configDeNegocio(negocio));
   const autos = filas.map(deFila).filter(Boolean);
 
-  const hash = crypto.createHash('sha256').update(JSON.stringify(filas)).digest('hex').slice(0, 16);
+  const hash = crypto.createHash('sha256').update(JSON.stringify({ autos: filas, negocio })).digest('hex').slice(0, 16);
   if (process.env.SOLO_SI_CAMBIO) {
     const anterior = await fetch(SITIO + 'estado.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     if (anterior && anterior.hash === hash) {
-      console.log('Los autos no cambiaron desde la última publicación, no hay nada para publicar.');
+      console.log('Los autos y los datos del negocio no cambiaron desde la última publicación, no hay nada para publicar.');
       salida('cambio', 'false');
       return;
     }
@@ -58,6 +62,9 @@ async function main() {
 
   fs.rmSync(SALIDA, { recursive: true, force: true });
   for (const dir of ESTATICOS) fs.cpSync(path.join(RAIZ, dir), path.join(SALIDA, dir), { recursive: true });
+  // El navegador (Vendé tu auto, panel) usa la misma config, ya con los datos del negocio.
+  escribir('js/config.js', '// Generado por scripts/generar.js: js/config.js con los datos del negocio de Supabase (panel → Datos del negocio).\n' +
+    'window.JH_CONFIG = ' + JSON.stringify(C, null, 2) + ';\n');
   await bajarFotos(autos);
   // Más nuevos primero.
   AUTOS = autos.sort((a, b) => b.creado.localeCompare(a.creado));
@@ -70,13 +77,49 @@ async function main() {
 
 // ---- Supabase ----
 
-async function leerSupabase() {
-  // Las claves nuevas (sb_publishable_...) van solo en apikey; las viejas (anon, JWT) también en Authorization.
+// Las claves nuevas (sb_publishable_...) van solo en apikey; las viejas (anon, JWT) también en Authorization.
+function cabeceras() {
   const headers = { apikey: C.supabaseKey };
   if (!C.supabaseKey.startsWith('sb_')) headers.Authorization = 'Bearer ' + C.supabaseKey;
-  const res = await fetch(`${C.supabaseUrl}/rest/v1/autos?select=*&concesionaria=eq.${encodeURIComponent(C.concesionaria)}&order=created_at.desc`, { headers });
+  return headers;
+}
+
+async function leerSupabase() {
+  const res = await fetch(`${C.supabaseUrl}/rest/v1/autos?select=*&concesionaria=eq.${encodeURIComponent(C.concesionaria)}&order=created_at.desc`, { headers: cabeceras() });
   if (!res.ok) throw new Error(`Supabase respondió ${res.status}: ${await res.text()}`);
   return res.json();
+}
+
+// Datos del negocio que el dueño edita desde el panel (WhatsApp, Instagram, dirección y horario de los locales).
+// Si la tabla todavía no existe, no hay fila o no se puede leer, se usa js/config.js tal cual.
+async function leerNegocio() {
+  if (process.env.NEGOCIO_JSON) {
+    const x = JSON.parse(fs.readFileSync(process.env.NEGOCIO_JSON, 'utf8'));
+    return (Array.isArray(x) ? x[0] : x) || null;
+  }
+  const res = await fetch(`${C.supabaseUrl}/rest/v1/negocios?select=*&concesionaria=eq.${encodeURIComponent(C.concesionaria)}`, { headers: cabeceras() }).catch(() => null);
+  if (!res || !res.ok) {
+    console.warn(`Aviso: no se pudieron leer los datos del negocio (${res ? res.status : 'sin conexión'}), se usa js/config.js.`);
+    return null;
+  }
+  return (await res.json())[0] || null;
+}
+
+// Fila de negocios → claves de JH_CONFIG (solo las que tienen valor; null = queda lo de config.js).
+// JH tiene dos locales: la dirección y el horario de cada uno van en extra.sedes
+// ({ "Toledo": { "direccion": "...", "horario": "..." } }); ahí un texto vacío = no se muestra.
+function configDeNegocio(n) {
+  if (!n) return {};
+  const mapa = { whatsapp: 'whatsapp', telefono: 'whatsappLabel', instagram: 'instagram' };
+  const c = Object.fromEntries(Object.entries(mapa).filter(([k]) => n[k]).map(([k, clave]) => [clave, n[k]]));
+  const sedes = (n.extra && n.extra.sedes) || {};
+  c.sedes = C.sedes.map((s) => {
+    const x = sedes[s.nombre] || {};
+    const sede = Object.assign({}, s);
+    for (const k of ['direccion', 'horario']) if (typeof x[k] === 'string') sede[k] = x[k];
+    return sede;
+  });
+  return c;
 }
 
 // Fila de la base → auto listo para las plantillas. Si a un auto le falta algo, se saltea (no rompe la web).
@@ -209,7 +252,7 @@ const IC = {
 };
 
 const PIE_DOLARES = '<span>Precios en dólares, sujetos a cambio sin previo aviso.</span>';
-const instagramUrl = `https://www.instagram.com/${C.instagram}/`;
+const instagramUrl = () => `https://www.instagram.com/${C.instagram}/`;
 
 // ruta: '' (inicio), 'autos/<slug>/', '404.html'...
 function pagina(plantilla, ruta, datos) {
@@ -227,7 +270,7 @@ function pagina(plantilla, ruta, datos) {
     jsonld: '',
     nav: { catalogo: '', vender: '' },
     wa: { href: esc(JH.waUrl()), label: esc(C.whatsappLabel) },
-    instagram: { url: esc(instagramUrl), usuario: esc(C.instagram) },
+    instagram: { url: esc(instagramUrl()), usuario: esc(C.instagram) },
     sedesNombres: esc(SEDES.join(' · ')),
     pie: PIE_DOLARES,
     ic: IC,
@@ -266,7 +309,7 @@ function dealerLd() {
     url: SITIO,
     logo: SITIO + 'img/favicon.svg',
     telephone: '+' + C.whatsapp,
-    sameAs: [instagramUrl],
+    sameAs: [instagramUrl()],
     areaServed: { '@type': 'AdministrativeArea', name: 'Canelones, Uruguay' },
     currenciesAccepted: 'USD, UYU',
     department: C.sedes.map((s) => ({
@@ -393,7 +436,7 @@ function generarPaginas() {
     nav: { catalogo: '', vender: ' aria-current="page" style="color: #FFFFFF"' },
     js: ['config', 'common', 'vender'],
     waInternacional: esc('+598 ' + C.whatsappLabel.replace(/^0/, '')),
-    pie: `<a href="${esc(instagramUrl)}" target="_blank" rel="noopener">Instagram @${esc(C.instagram)}</a>`
+    pie: `<a href="${esc(instagramUrl())}" target="_blank" rel="noopener">Instagram @${esc(C.instagram)}</a>`
   });
 
   // 404 (GitHub Pages lo sirve para cualquier URL que no exista, ej. un auto vendido)
