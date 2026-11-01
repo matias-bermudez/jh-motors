@@ -1,0 +1,16 @@
+<%- include('partials/head') %>
+<div style="font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; color: #F5F5F4; background: #0A0A0B; color-scheme: dark; min-height: 100vh; display: flex; flex-direction: column">
+<%- include('partials/header', { active: '' }) %>
+<main style="flex: 1; max-width: 1280px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 96px 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 20px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #FF3B30">Error 404</p>
+<h1 style="margin: 0; font-size: clamp(36px, 4.4vw, 56px); line-height: 1; font-weight: 800; font-stretch: 118%">No encontramos esta página.</h1>
+<p style="margin: 0; max-width: 540px; font-size: 18px; line-height: 1.55; color: #B4B4BC">Puede que el auto ya no esté publicado. Mirá el catálogo o escribinos y te ayudamos.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a class="btn-red" href="/#catalogo" style="display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 26px; border-radius: 999px; font-size: 16px; font-weight: 700">Ver catálogo <%- icon.arrowRight(18) %></a>
+<a class="btn-ghost" href="<%= site.whatsapp.link() %>" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; height: 52px; padding: 0 26px; border-radius: 999px; border: 1px solid #3A3A40; font-size: 16px; font-weight: 600">Escribir por WhatsApp</a>
+</div>
+</main>
+<%- include('partials/footer-small') %>
+</div>
+</body>
+</html>

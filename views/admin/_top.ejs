@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es-UY">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title><%= title %> · Admin JH Motors</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/site.css?v=<%= assetVersion %>">
+</head>
+<body>
+<div class="adm">
+<header style="background: rgba(10,10,11,0.94); border-bottom: 1px solid #1F1F23">
+<div style="max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px">
+<a href="/admin" style="display: flex; align-items: baseline; gap: 7px; text-decoration: none">
+<span style="font-family: 'Bodoni Moda', Didot, serif; font-weight: 700; font-size: 28px; line-height: 1; color: #FFFFFF">JH</span>
+<span style="font-stretch: 115%; font-weight: 800; font-size: 17px; line-height: 1; letter-spacing: 0.03em; color: #FF3B30">MOTORS</span>
+<span style="margin-left: 6px; font-size: 13px; color: #A1A1AA">Administración</span>
+</a>
+<% if (locals.logged) { %>
+<nav style="display: flex; align-items: center; gap: 20px; font-size: 15px">
+<a class="nav" href="/admin">Autos</a>
+<a class="nav" href="/admin/autos/nuevo">Cargar auto</a>
+<a class="nav" href="/" target="_blank" rel="noopener">Ver web</a>
+<form method="post" action="/admin/logout" style="margin: 0"><button class="adm-btn ghost small" type="submit">Salir</button></form>
+</nav>
+<% } %>
+</div>
+</header>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<title>JH Motors — Vendé tu auto</title>
+<script src="8a392a7b-3b3c-4363-b9fc-1a0f1db99717"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>/* vietnamese */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/archivo/v25/k3kQo8UDI-1M0wlSfdboLmvDIaK18A.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/archivo/v25/k3kQo8UDI-1M0wlSfdfoLmvDIaK18A.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("ed675ec1-9201-4a0e-9eef-179894388751") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* math */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bodonimoda/v28/aFTH7PxzY382XsXX63LUYL6GYFksw-NIrKp-S_31VOxQVAS1EmZ9.woff2) format('woff2');
+  unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-209F, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+}
+/* symbols */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bodonimoda/v28/aFTH7PxzY382XsXX63LUYL6GYFksw-NIrKp-S_31RuxQVAS1EmZ9.woff2) format('woff2');
+  unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AE, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F8D0-1F8D8, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FAC6, U+1FAC8, U+1FACC-1FADD, U+1FADF-1FAEB, U+1FAEF-1FAFA, U+1FB00-1FBFF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bodonimoda/v28/aFTH7PxzY382XsXX63LUYL6GYFksw-NIrKp-S_31JuxQVAS1EmZ9.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("7699611a-5a02-49d8-90f8-4b4cfb5a08ac") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+body{margin:0;background:#0A0A0B}
+a{color:#FF3B30}a:hover{color:#FF6A5F}
+.nav{color:#D4D4D8;text-decoration:none}
+.nav:hover{color:#FFFFFF}
+.btn-red{background:#D7201A;color:#FFFFFF;text-decoration:none;transition:background .15s ease}
+.btn-red:hover{background:#B51A15;color:#FFFFFF}
+.in{font:inherit;color:#F5F5F4;background:#0E0E10;border:1px solid #2C2C31;border-radius:10px;box-sizing:border-box;width:100%}
+.in:focus{outline:2px solid #FF3B30;outline-offset:1px}
+.in::placeholder{color:#8A8A93}
+.seg{font:inherit;cursor:pointer}
+.seg:focus-visible{outline:2px solid #FF3B30;outline-offset:2px}
+</style>
+</helmet>
+<div style="font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; color: #F5F5F4; background: #0A0A0B; color-scheme: dark">
+
+<header style="position: sticky; top: 0; z-index: 10; background: rgba(10,10,11,0.94); border-bottom: 1px solid #1F1F23; backdrop-filter: blur(10px)">
+<div style="max-width: 1280px; margin: 0 auto; padding: 12px 24px; min-height: 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px">
+<a href="Main.dc.html" aria-label="JH Motors, inicio" style="display: flex; align-items: baseline; gap: 7px; text-decoration: none">
+<span style="font-family: 'Bodoni Moda', Didot, 'Times New Roman', serif; font-weight: 700; font-size: 32px; line-height: 1; color: #FFFFFF">JH</span>
+<span style="font-family: Archivo, Arial, sans-serif; font-stretch: 115%; font-weight: 800; font-size: 19px; line-height: 1; letter-spacing: 0.03em; color: #FF3B30">MOTORS</span>
+</a>
+<nav aria-label="Principal" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-size: 15px; font-weight: 500">
+<a class="nav" href="Main.dc.html">Catálogo</a>
+<a class="nav" href="Main.dc.html">Financiación</a>
+<a class="nav" href="Vender.dc.html" aria-current="page" style="color: #FFFFFF">Vendé tu auto</a>
+<a class="nav" href="Main.dc.html">Contacto</a>
+</nav>
+<a class="btn-red" href="https://wa.me/59899571202" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp al 099 571 202" style="display: inline-flex; align-items: center; gap: 9px; height: 44px; padding: 0 18px; border-radius: 999px; font-size: 15px; font-weight: 700">
+<svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.5L3 21l1.6-5.3A8.5 8.5 0 1 1 21 12z"></path></svg>
+099 571 202
+</a>
+</div>
+</header>
+
+<main style="max-width: 1280px; margin: 0 auto; padding: 64px 24px 96px; display: flex; flex-direction: column; gap: 48px">
+
+<section style="display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 760px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #FF3B30">Ventas y consignaciones</p>
+<h1 style="margin: 0; font-size: clamp(38px, 4.8vw, 64px); line-height: 1; font-weight: 800; font-stretch: 118%; letter-spacing: -0.01em; text-wrap: balance">Vendé o consigná tu auto con nosotros.</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #B4B4BC; text-wrap: pretty">Completá los datos y se abre WhatsApp con el mensaje listo para enviarnos. Las fotos las mandás en el mismo chat.</p>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px">
+<li style="background: #111113; border: 1px solid #232327; border-radius: 16px; padding: 20px; display: flex; gap: 16px; align-items: flex-start">
+<span style="flex-shrink: 0; width: 36px; height: 36px; border-radius: 999px; background: #D7201A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800">1</span>
+<span style="display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 16px">Completás el formulario</strong><span style="font-size: 14px; line-height: 1.5; color: #A1A1AA">Marca, modelo, año, kilómetros y lo que pedís por él.</span></span>
+</li>
+<li style="background: #111113; border: 1px solid #232327; border-radius: 16px; padding: 20px; display: flex; gap: 16px; align-items: flex-start">
+<span style="flex-shrink: 0; width: 36px; height: 36px; border-radius: 999px; background: #D7201A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800">2</span>
+<span style="display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 16px">Lo enviás por WhatsApp</strong><span style="font-size: 14px; line-height: 1.5; color: #A1A1AA">Se abre el chat con el 099 571 202 y el mensaje ya escrito.</span></span>
+</li>
+<li style="background: #111113; border: 1px solid #232327; border-radius: 16px; padding: 20px; display: flex; gap: 16px; align-items: flex-start">
+<span style="flex-shrink: 0; width: 36px; height: 36px; border-radius: 999px; background: #D7201A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800">3</span>
+<span style="display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 16px">Adjuntás las fotos</strong><span style="font-size: 14px; line-height: 1.5; color: #A1A1AA">En el mismo chat. Con eso te respondemos y coordinamos.</span></span>
+</li>
+</ol>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px">
+
+<form aria-label="Datos de tu auto" style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+
+<fieldset style="margin: 0; padding: 28px; border: 1px solid #232327; border-radius: 20px; background: #111113; display: flex; flex-direction: column; gap: 18px">
+<legend style="padding: 0 8px; font-size: 20px; font-weight: 800; font-stretch: 110%">¿Qué querés hacer?</legend>
+<div role="group" aria-label="Operación" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{operaciones}}" as="o" hint-placeholder-count="3">
+<sc-if value="{{o.on}}" hint-placeholder-val="{{ false }}"><button type="button" class="seg" aria-pressed="true" sc-camel-on-click="{{o.pick}}" style="height: 46px; padding: 0 18px; border-radius: 999px; border: 1px solid #F5F5F4; background: #F5F5F4; color: #0A0A0B; font-size: 15px; font-weight: 700">{{o.label}}</button></sc-if>
+<sc-if value="{{o.off}}" hint-placeholder-val="{{ true }}"><button type="button" class="seg" aria-pressed="false" sc-camel-on-click="{{o.pick}}" style="height: 46px; padding: 0 18px; border-radius: 999px; border: 1px solid #2E2E33; background: transparent; color: #E4E4E7; font-size: 15px; font-weight: 500">{{o.label}}</button></sc-if>
+</sc-for>
+</div>
+</fieldset>
+
+<fieldset style="margin: 0; padding: 28px; border: 1px solid #232327; border-radius: 20px; background: #111113; display: flex; flex-direction: column; gap: 18px">
+<legend style="padding: 0 8px; font-size: 20px; font-weight: 800; font-stretch: 110%">Tu auto</legend>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="marca" style="font-size: 14px; color: #D4D4D8">Marca *</label><input id="marca" class="in" type="text" placeholder="Ej.: Volkswagen" value="{{f.marca}}" sc-camel-on-change="{{on.marca}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="modelo" style="font-size: 14px; color: #D4D4D8">Modelo *</label><input id="modelo" class="in" type="text" placeholder="Ej.: Gol" value="{{f.modelo}}" sc-camel-on-change="{{on.modelo}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="version" style="font-size: 14px; color: #D4D4D8">Versión</label><input id="version" class="in" type="text" placeholder="Ej.: Trendline 1.6" value="{{f.version}}" sc-camel-on-change="{{on.version}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="anio" style="font-size: 14px; color: #D4D4D8">Año *</label><input id="anio" class="in" type="number" inputmode="numeric" placeholder="Ej.: 2019" value="{{f.anio}}" sc-camel-on-change="{{on.anio}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="km" style="font-size: 14px; color: #D4D4D8">Kilómetros</label><input id="km" class="in" type="number" inputmode="numeric" placeholder="Ej.: 85000" value="{{f.km}}" sc-camel-on-change="{{on.km}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="color" style="font-size: 14px; color: #D4D4D8">Color</label><input id="color" class="in" type="text" placeholder="Ej.: Gris plata" value="{{f.color}}" sc-camel-on-change="{{on.color}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="comb" style="font-size: 14px; color: #D4D4D8">Combustible</label>
+<sc-raw-select id="comb" class="in" value="{{f.comb}}" sc-camel-on-change="{{on.comb}}" style="height: 48px; padding: 0 12px; font-size: 16px">
+<option value="Nafta">Nafta</option><option value="Diésel">Diésel</option><option value="Híbrido">Híbrido</option><option value="Eléctrico">Eléctrico</option>
+</sc-raw-select></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="caja" style="font-size: 14px; color: #D4D4D8">Transmisión</label>
+<sc-raw-select id="caja" class="in" value="{{f.caja}}" sc-camel-on-change="{{on.caja}}" style="height: 48px; padding: 0 12px; font-size: 16px">
+<option value="Manual">Manual</option><option value="Automática">Automática</option>
+</sc-raw-select></div>
+</div>
+</fieldset>
+
+<fieldset style="margin: 0; padding: 28px; border: 1px solid #232327; border-radius: 20px; background: #111113; display: flex; flex-direction: column; gap: 18px">
+<legend style="padding: 0 8px; font-size: 20px; font-weight: 800; font-stretch: 110%">Estado y precio</legend>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span id="estado-label" style="font-size: 14px; color: #D4D4D8">Estado general</span>
+<div role="group" aria-labelledby="estado-label" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{estados}}" as="o" hint-placeholder-count="4">
+<sc-if value="{{o.on}}" hint-placeholder-val="{{ false }}"><button type="button" class="seg" aria-pressed="true" sc-camel-on-click="{{o.pick}}" style="height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid #F5F5F4; background: #F5F5F4; color: #0A0A0B; font-size: 15px; font-weight: 700">{{o.label}}</button></sc-if>
+<sc-if value="{{o.off}}" hint-placeholder-val="{{ true }}"><button type="button" class="seg" aria-pressed="false" sc-camel-on-click="{{o.pick}}" style="height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid #2E2E33; background: transparent; color: #E4E4E7; font-size: 15px; font-weight: 500">{{o.label}}</button></sc-if>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="precio" style="font-size: 14px; color: #D4D4D8">Precio pretendido (USD)</label><input id="precio" class="in" type="number" inputmode="numeric" placeholder="Ej.: 12500" value="{{f.precio}}" sc-camel-on-change="{{on.precio}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="comentarios" style="font-size: 14px; color: #D4D4D8">Comentarios</label><textarea id="comentarios" class="in" rows="4" placeholder="Service, detalles, si está a tu nombre, si lo querés cambiar por otro auto..." value="{{f.comentarios}}" sc-camel-on-change="{{on.comentarios}}" style="padding: 12px 14px; font-size: 16px; line-height: 1.5; resize: vertical"></textarea></div>
+</fieldset>
+
+<fieldset style="margin: 0; padding: 28px; border: 1px solid #232327; border-radius: 20px; background: #111113; display: flex; flex-direction: column; gap: 18px">
+<legend style="padding: 0 8px; font-size: 20px; font-weight: 800; font-stretch: 110%">Tus datos</legend>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="nombre" style="font-size: 14px; color: #D4D4D8">Nombre *</label><input id="nombre" class="in" type="text" autocomplete="name" value="{{f.nombre}}" sc-camel-on-change="{{on.nombre}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="tel" style="font-size: 14px; color: #D4D4D8">Celular *</label><input id="tel" class="in" type="tel" autocomplete="tel" placeholder="09X XXX XXX" value="{{f.tel}}" sc-camel-on-change="{{on.tel}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="localidad" style="font-size: 14px; color: #D4D4D8">Localidad</label><input id="localidad" class="in" type="text" placeholder="Ej.: Pando" value="{{f.localidad}}" sc-camel-on-change="{{on.localidad}}" style="height: 48px; padding: 0 14px; font-size: 16px"></div>
+</div>
+</fieldset>
+
+<section aria-labelledby="fotos" style="padding: 28px; border: 1px dashed #3A3A40; border-radius: 20px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: center; gap: 12px">
+<svg aria-hidden="true" width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v12H4z"></path><circle cx="12" cy="14" r="3.5"></circle></svg>
+<h2 id="fotos" style="margin: 0; font-size: 20px; font-weight: 800; font-stretch: 110%">Fotos: mandalas por WhatsApp</h2>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #A1A1AA">Después de enviar el mensaje, adjuntá en el mismo chat estas fotos con buena luz:</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); gap: 10px 20px">
+<sc-for list="{{checklist}}" as="c" hint-placeholder-count="6">
+<li style="display: flex; align-items: center; gap: 10px; font-size: 15px; color: #E4E4E7">
+<svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><path d="M5 12l5 5 9-10"></path></svg>
+{{c}}
+</li>
+</sc-for>
+</ul>
+</section>
+</form>
+
+<aside aria-label="Vista previa del mensaje" style="flex: 1 1 380px; min-width: 0; position: sticky; top: 96px; background: #111113; border: 1px solid #232327; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 800; font-stretch: 110%">Así nos llega tu mensaje</h2>
+<span style="font-size: 14px; color: #A1A1AA">Se actualiza mientras completás el formulario.</span>
+</div>
+<div style="background: #0B141A; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #1F2C33">
+<span style="width: 36px; height: 36px; border-radius: 999px; background: #000000; border: 1px solid #2A2A2F; display: flex; align-items: center; justify-content: center; font-family: 'Bodoni Moda', Didot, serif; font-weight: 700; font-size: 14px; color: #FFFFFF">JH</span>
+<span style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 700">JH Motors</span><span style="font-size: 12px; color: #A1A1AA">+598 99 571 202</span></span>
+</div>
+<div style="align-self: flex-end; max-width: 92%; background: #144D37; color: #F1F5F3; border-radius: 12px 12px 4px 12px; padding: 12px 14px; font-size: 14px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere">{{mensaje}}</div>
+</div>
+<sc-if value="{{listo}}" hint-placeholder-val="{{ false }}">
+<a class="btn-red" href="{{waUrl}}" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 56px; border-radius: 999px; font-size: 17px; font-weight: 700">
+<svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.5L3 21l1.6-5.3A8.5 8.5 0 1 1 21 12z"></path></svg>
+Enviar por WhatsApp
+</a>
+</sc-if>
+<sc-if value="{{noListo}}" hint-placeholder-val="{{ true }}">
+<button type="button" disabled="" style="height: 56px; border-radius: 999px; border: 1px solid #2E2E33; background: #1A1A1D; color: #A1A1AA; font: inherit; font-size: 17px; font-weight: 700">Enviar por WhatsApp</button>
+<span style="font-size: 14px; line-height: 1.5; color: #A1A1AA">Para enviar falta completar: <strong style="color: #E4E4E7">{{faltan}}</strong>.</span>
+</sc-if>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #8A8A93">Se abre WhatsApp con el mensaje listo. Tus datos solo se usan para contactarte sobre tu auto.</p>
+</aside>
+</div>
+</main>
+
+<footer style="background: #070708; border-top: 1px solid #1E1E22">
+<div style="max-width: 1280px; margin: 0 auto; padding: 32px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 14px; color: #8A8A93">
+<div style="display: flex; align-items: baseline; gap: 6px">
+<span style="font-family: 'Bodoni Moda', Didot, 'Times New Roman', serif; font-weight: 700; font-size: 24px; line-height: 1; color: #FFFFFF">JH</span>
+<span style="font-stretch: 115%; font-weight: 800; font-size: 15px; line-height: 1; letter-spacing: 0.03em; color: #FF3B30">MOTORS</span>
+</div>
+<span>Toledo · Atlántida · WhatsApp 099 571 202</span>
+<a href="https://www.instagram.com/jhmotors_oficial/" target="_blank" rel="noopener">Instagram @jhmotors_oficial</a>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2100}}">
+const WA = 'https://wa.me/59899571202?text=';
+const DEF = {
+  operacion: 'Vender', marca: '', modelo: '', version: '', anio: '', km: '', color: '',
+  comb: 'Nafta', caja: 'Manual', estado: 'Muy bueno', precio: '', comentarios: '',
+  nombre: '', tel: '', localidad: ''
+};
+const OPERACIONES = ['Vender', 'Consignar', 'Entregarlo como parte de pago'];
+const ESTADOS = ['Excelente', 'Muy bueno', 'Bueno', 'Con detalles'];
+const CHECKLIST = ['Frente', 'Trasera', 'Ambos laterales', 'Interior delantero', 'Asientos traseros', 'Tablero encendido (km)', 'Detalles o golpes, si tiene'];
+const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const INTRO = {
+  'Vender': 'quiero vender mi auto',
+  'Consignar': 'quiero dejar mi auto en consignación',
+  'Entregarlo como parte de pago': 'quiero entregar mi auto como parte de pago'
+};
+class Component extends DCLogic {
+  setter(k) {
+    return (e) => {
+      const v = e && e.target ? e.target.value : e;
+      const f = Object.assign({}, DEF, (this.state && this.state.f) || {});
+      f[k] = v;
+      this.setState({ f });
+    };
+  }
+  renderVals() {
+    const f = Object.assign({}, DEF, (this.state && this.state.f) || {});
+    const t = (v) => String(v || '').trim();
+    const pick = (k, v) => () => this.setState({ f: Object.assign({}, f, { [k]: v }) });
+    const lines = ['Hola JH Motors, ' + INTRO[f.operacion] + '.', '', '*Vehículo*'];
+    const add = (label, v) => { if (t(v)) lines.push(label + ': ' + t(v)); };
+    add('Marca', f.marca);
+    add('Modelo', f.modelo);
+    add('Versión', f.version);
+    add('Año', f.anio);
+    if (t(f.km)) lines.push('Kilómetros: ' + fmt(t(f.km).replace(/\D/g, '')) + ' km');
+    add('Combustible', f.comb);
+    add('Transmisión', f.caja);
+    add('Color', f.color);
+    add('Estado general', f.estado);
+    if (t(f.precio)) lines.push('Precio pretendido: USD ' + fmt(t(f.precio).replace(/\D/g, '')));
+    if (t(f.comentarios)) lines.push('', 'Comentarios: ' + t(f.comentarios));
+    lines.push('', '*Mis datos*');
+    add('Nombre', f.nombre);
+    add('Celular', f.tel);
+    add('Localidad', f.localidad);
+    lines.push('', 'Les envío las fotos a continuación.');
+    const mensaje = lines.join('\n');
+    const req = [['marca', f.marca], ['modelo', f.modelo], ['año', f.anio], ['nombre', f.nombre], ['celular', f.tel]];
+    const faltanList = req.filter(([, v]) => !t(v)).map(([k]) => k);
+    const listo = faltanList.length === 0;
+    const on = {};
+    Object.keys(DEF).forEach((k) => { on[k] = this.setter(k); });
+    return {
+      f,
+      on,
+      operaciones: OPERACIONES.map((o) => ({ label: o, on: f.operacion === o, off: f.operacion !== o, pick: pick('operacion', o) })),
+      estados: ESTADOS.map((o) => ({ label: o, on: f.estado === o, off: f.estado !== o, pick: pick('estado', o) })),
+      checklist: CHECKLIST,
+      mensaje,
+      listo,
+      noListo: !listo,
+      faltan: faltanList.join(', '),
+      waUrl: WA + encodeURIComponent(mensaje)
+    };
+  }
+}
+</script>
+
+
+</body></html>

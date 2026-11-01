@@ -1,0 +1,137 @@
+<%- include('partials/head') %>
+<div style="font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; color: #F5F5F4; background: #0A0A0B; color-scheme: dark">
+
+<%- include('partials/header', { active: 'vender' }) %>
+
+<main style="max-width: 1280px; margin: 0 auto; padding: 64px 24px 96px; display: flex; flex-direction: column; gap: 48px">
+
+<section style="display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 760px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #FF3B30">Ventas y consignaciones</p>
+<h1 style="margin: 0; font-size: clamp(38px, 4.8vw, 64px); line-height: 1; font-weight: 800; font-stretch: 118%; letter-spacing: -0.01em; text-wrap: balance">Vendé o consigná tu auto con nosotros.</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #B4B4BC; text-wrap: pretty">Completá los datos y se abre WhatsApp con el mensaje listo para enviarnos. Las fotos las mandás en el mismo chat.</p>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px">
+<% [
+  ['Completás el formulario', 'Marca, modelo, año, kilómetros y lo que pedís por él.'],
+  ['Lo enviás por WhatsApp', 'Se abre el chat con el ' + site.whatsapp.display + ' y el mensaje ya escrito.'],
+  ['Adjuntás las fotos', 'En el mismo chat. Con eso te respondemos y coordinamos.']
+].forEach((paso, i) => { %>
+<li style="background: #111113; border: 1px solid #232327; border-radius: 16px; padding: 20px; display: flex; gap: 16px; align-items: flex-start">
+<span style="flex-shrink: 0; width: 36px; height: 36px; border-radius: 999px; background: #D7201A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800"><%= i + 1 %></span>
+<span style="display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 16px"><%= paso[0] %></strong><span style="font-size: 14px; line-height: 1.5; color: #A1A1AA"><%= paso[1] %></span></span>
+</li>
+<% }) %>
+</ol>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px">
+
+<form id="vender" aria-label="Datos de tu auto" novalidate style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+
+<fieldset style="margin: 0; padding: 28px; border: 1px solid #232327; border-radius: 20px; background: #111113; display: flex; flex-direction: column; gap: 18px">
+<legend style="padding: 0 8px; font-size: 20px; font-weight: 800; font-stretch: 110%">¿Qué querés hacer?</legend>
+<div role="group" aria-label="Operación" data-seg="operacion" style="display: flex; flex-wrap: wrap; gap: 8px">
+<% for (const o of ['Vender', 'Consignar', 'Entregarlo como parte de pago']) { %>
+<button type="button" class="seg toggle" data-value="<%= o %>" aria-pressed="<%= o === 'Vender' %>" style="height: 46px; padding: 0 18px; border-radius: 999px; font-size: 15px"><%= o %></button>
+<% } %>
+</div>
+</fieldset>
+
+<fieldset style="margin: 0; padding: 28px; border: 1px solid #232327; border-radius: 20px; background: #111113; display: flex; flex-direction: column; gap: 18px">
+<legend style="padding: 0 8px; font-size: 20px; font-weight: 800; font-stretch: 110%">Tu auto</legend>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px">
+<% for (const f of [
+  ['marca', 'Marca *', 'text', 'Ej.: Volkswagen'],
+  ['modelo', 'Modelo *', 'text', 'Ej.: Gol'],
+  ['version', 'Versión', 'text', 'Ej.: Trendline 1.6'],
+  ['anio', 'Año *', 'number', 'Ej.: 2019'],
+  ['km', 'Kilómetros', 'number', 'Ej.: 85000'],
+  ['color', 'Color', 'text', 'Ej.: Gris plata']
+]) { %>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="<%= f[0] %>" style="font-size: 14px; color: #D4D4D8"><%= f[1] %></label><input id="<%= f[0] %>" name="<%= f[0] %>" class="in" type="<%= f[2] %>"<% if (f[2] === 'number') { %> inputmode="numeric" min="0"<% } %> placeholder="<%= f[3] %>" style="width: 100%; height: 48px; padding: 0 14px; font-size: 16px"></div>
+<% } %>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="comb" style="font-size: 14px; color: #D4D4D8">Combustible</label>
+<select id="comb" name="comb" class="in" style="width: 100%; height: 48px; padding: 0 12px; font-size: 16px">
+<option value="Nafta">Nafta</option><option value="Diésel">Diésel</option><option value="Híbrido">Híbrido</option><option value="Eléctrico">Eléctrico</option>
+</select></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="caja" style="font-size: 14px; color: #D4D4D8">Transmisión</label>
+<select id="caja" name="caja" class="in" style="width: 100%; height: 48px; padding: 0 12px; font-size: 16px">
+<option value="Manual">Manual</option><option value="Automática">Automática</option>
+</select></div>
+</div>
+</fieldset>
+
+<fieldset style="margin: 0; padding: 28px; border: 1px solid #232327; border-radius: 20px; background: #111113; display: flex; flex-direction: column; gap: 18px">
+<legend style="padding: 0 8px; font-size: 20px; font-weight: 800; font-stretch: 110%">Estado y precio</legend>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span id="estado-label" style="font-size: 14px; color: #D4D4D8">Estado general</span>
+<div role="group" aria-labelledby="estado-label" data-seg="estado" style="display: flex; flex-wrap: wrap; gap: 8px">
+<% for (const o of ['Excelente', 'Muy bueno', 'Bueno', 'Con detalles']) { %>
+<button type="button" class="seg toggle" data-value="<%= o %>" aria-pressed="<%= o === 'Muy bueno' %>" style="height: 44px; padding: 0 16px; border-radius: 10px; font-size: 15px"><%= o %></button>
+<% } %>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="precio" style="font-size: 14px; color: #D4D4D8">Precio pretendido (USD)</label><input id="precio" name="precio" class="in" type="number" inputmode="numeric" min="0" placeholder="Ej.: 12500" style="width: 100%; height: 48px; padding: 0 14px; font-size: 16px"></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="comentarios" style="font-size: 14px; color: #D4D4D8">Comentarios</label><textarea id="comentarios" name="comentarios" class="in" rows="4" placeholder="Service, detalles, si está a tu nombre, si lo querés cambiar por otro auto..." style="width: 100%; padding: 12px 14px; font-size: 16px; line-height: 1.5; resize: vertical"></textarea></div>
+</fieldset>
+
+<fieldset style="margin: 0; padding: 28px; border: 1px solid #232327; border-radius: 20px; background: #111113; display: flex; flex-direction: column; gap: 18px">
+<legend style="padding: 0 8px; font-size: 20px; font-weight: 800; font-stretch: 110%">Tus datos</legend>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="nombre" style="font-size: 14px; color: #D4D4D8">Nombre *</label><input id="nombre" name="nombre" class="in" type="text" autocomplete="name" style="width: 100%; height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="tel" style="font-size: 14px; color: #D4D4D8">Celular *</label><input id="tel" name="tel" class="in" type="tel" autocomplete="tel" placeholder="09X XXX XXX" style="width: 100%; height: 48px; padding: 0 14px; font-size: 16px"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="localidad" style="font-size: 14px; color: #D4D4D8">Localidad</label><input id="localidad" name="localidad" class="in" type="text" placeholder="Ej.: Pando" style="width: 100%; height: 48px; padding: 0 14px; font-size: 16px"></div>
+</div>
+</fieldset>
+
+<section aria-labelledby="fotos" style="padding: 28px; border: 1px dashed #3A3A40; border-radius: 20px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: center; gap: 12px">
+<%- icon.camera(24, '#FF3B30') %>
+<h2 id="fotos" style="margin: 0; font-size: 20px; font-weight: 800; font-stretch: 110%">Fotos: mandalas por WhatsApp</h2>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #A1A1AA">Después de enviar el mensaje, adjuntá en el mismo chat estas fotos con buena luz:</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); gap: 10px 20px">
+<% for (const c of ['Frente', 'Trasera', 'Ambos laterales', 'Interior delantero', 'Asientos traseros', 'Tablero encendido (km)', 'Detalles o golpes, si tiene']) { %>
+<li style="display: flex; align-items: center; gap: 10px; font-size: 15px; color: #E4E4E7">
+<%- icon.check(18, 'flex-shrink: 0') %>
+<%= c %>
+</li>
+<% } %>
+</ul>
+</section>
+</form>
+
+<aside class="sticky-aside" aria-label="Vista previa del mensaje" style="flex: 1 1 380px; min-width: 0; position: sticky; top: 96px; background: #111113; border: 1px solid #232327; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 800; font-stretch: 110%">Así nos llega tu mensaje</h2>
+<span style="font-size: 14px; color: #A1A1AA">Se actualiza mientras completás el formulario.</span>
+</div>
+<div style="background: #0B141A; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #1F2C33">
+<span style="width: 36px; height: 36px; border-radius: 999px; background: #000000; border: 1px solid #2A2A2F; display: flex; align-items: center; justify-content: center; font-family: 'Bodoni Moda', Didot, serif; font-weight: 700; font-size: 14px; color: #FFFFFF">JH</span>
+<span style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 700">JH Motors</span><span style="font-size: 12px; color: #A1A1AA"><%= site.whatsapp.intlDisplay %></span></span>
+</div>
+<div id="mensaje" style="align-self: flex-end; max-width: 92%; background: #144D37; color: #F1F5F3; border-radius: 12px 12px 4px 12px; padding: 12px 14px; font-size: 14px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere">Hola JH Motors, quiero vender mi auto.</div>
+</div>
+<a id="enviar" class="btn-red" href="#" target="_blank" rel="noopener" hidden style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 56px; border-radius: 999px; font-size: 17px; font-weight: 700">
+<%- icon.wa(20) %>
+Enviar por WhatsApp
+</a>
+<div id="no-listo" style="display: flex; flex-direction: column; gap: 18px">
+<button type="button" disabled style="height: 56px; border-radius: 999px; border: 1px solid #2E2E33; background: #1A1A1D; color: #A1A1AA; font: inherit; font-size: 17px; font-weight: 700">Enviar por WhatsApp</button>
+<span style="font-size: 14px; line-height: 1.5; color: #A1A1AA">Para enviar falta completar: <strong id="faltan" style="color: #E4E4E7">marca, modelo, año, nombre, celular</strong>.</span>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #8A8A93">Se abre WhatsApp con el mensaje listo. Tus datos solo se usan para contactarte sobre tu auto.</p>
+</aside>
+</div>
+</main>
+
+<%- include('partials/footer-small', { footerInstagram: true }) %>
+</div>
+<script>window.JH_WA = <%- JSON.stringify(site.whatsapp.number) %>;</script>
+<script src="/js/vender.js?v=<%= assetVersion %>" defer></script>
+</body>
+</html>
