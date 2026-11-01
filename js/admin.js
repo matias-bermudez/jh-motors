@@ -174,7 +174,7 @@ function pintarLista() {
 <tbody>${lista.map((a) => {
     const x = a.extra || {};
     const media = a.fotos.length ? `<img src="${esc(urlFoto(a.fotos[0], true))}" alt="" loading="lazy">` : '<div class="ph"></div>';
-    const datos = [JH.ref(a.id), x.version, JH.miles(a.km) + ' km', x.sede, a.destacado && '★ Destacado', a.fotos.length + ' fotos'].filter(Boolean).join(' · ');
+    const datos = [JH.ref(a.id), x.version, (x.sin_km ? 'km a consultar' : JH.miles(a.km) + ' km'), x.sede, a.destacado && '★ Destacado', a.fotos.length + ' fotos'].filter(Boolean).join(' · ');
     const marcas = [
       pendiente(a) && '<span class="adm-badge reservado">Publicándose en la web…</span>',
       !a.publicado && '<span class="adm-badge vendido">Oculto</span>',
@@ -325,6 +325,8 @@ function abrir(a) {
       if (k === 'financiable') el[k].checked = x[k] === true;
       else el[k].value = x[k] == null ? '' : String(x[k]);
     }
+    // Km vacío = "a consultar" (extra.sin_km); si no, se muestra aunque sea 0.
+    el.km.value = x.sin_km ? '' : JH.miles(a.km || 0);
     if (!el.carroceria.value) el.carroceria.value = 'Sedán';
     const lista = JH.OPCIONES.equipamiento;
     for (const c of form.querySelectorAll('[name="equip"]')) c.checked = a.equipamiento.includes(c.value);
@@ -349,7 +351,8 @@ function datosDelForm() {
   for (const k of TEXTOS) fila[k] = t(k) || null;
   for (const k of ENTEROS) fila[k] = t(k).replace(/\D/g, '') ? Number(t(k).replace(/\D/g, '')) : null;
   for (const k of CHECKS) fila[k] = el[k].checked;
-  if (fila.km === null) fila.km = 0;
+  const sinKm = fila.km === null;
+  if (sinKm) fila.km = 0;
   // `modelo` en la base es modelo + versión; la versión sola queda en extra.version.
   fila.modelo = [t('modelo'), t('version')].filter(Boolean).join(' ');
   fila.tipo = JH.tipoDe(fila.carroceria);
@@ -363,6 +366,8 @@ function datosDelForm() {
     if (val === '') delete extra[k];
     else extra[k] = val;
   }
+  if (sinKm) extra.sin_km = true;
+  else delete extra.sin_km;
   fila.extra = extra;
   fila.fotos = fotos;
   return fila;

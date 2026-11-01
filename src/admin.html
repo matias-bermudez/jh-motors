@@ -101,7 +101,7 @@
 <label class="adm-field">Modelo *<input class="in" name="modelo" required placeholder="Ej.: T-Cross" autocomplete="off"></label>
 <label class="adm-field">Versión<input class="in" name="version" placeholder="Ej.: Highline 1.4 TSI" autocomplete="off"></label>
 <label class="adm-field">Año *<input class="in" name="anio" type="text" inputmode="numeric" required placeholder="Ej.: 2022" autocomplete="off"></label>
-<label class="adm-field">Kilómetros<input class="in" name="km" type="text" inputmode="numeric" placeholder="Ej.: 32.000" autocomplete="off"></label>
+<label class="adm-field">Kilómetros<input class="in" name="km" type="text" inputmode="numeric" placeholder="Ej.: 32.000" autocomplete="off"><small>Vacío = "a consultar". 0 = 0 km.</small></label>
 <label class="adm-field">Carrocería<select class="in" name="carroceria" data-opciones="carrocerias"></select></label>
 <label class="adm-field">Combustible<select class="in" name="combustible" data-opciones="combustibles"></select></label>
 <label class="adm-field">Transmisión<select class="in" name="transmision" data-opciones="transmisiones"></select></label>
@@ -122,7 +122,7 @@
 <label class="adm-field">Moneda
 <select class="in" name="moneda"><option value="USD">Dólares (U$S)</option><option value="UYU">Pesos uruguayos ($)</option></select>
 </label>
-<label class="adm-field">Local<select class="in" name="sede" data-opciones="sedes"></select></label>
+<label class="adm-field">Local<select class="in" name="sede" data-opciones="sedes" data-vacio="Sin indicar"></select></label>
 <label class="adm-field">Estado
 <select class="in" name="estado"><option value="disponible">Disponible</option><option value="reservado">Reservado</option><option value="vendido">Vendido</option></select>
 <small>Los vendidos salen del catálogo.</small>

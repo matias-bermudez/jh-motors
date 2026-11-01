@@ -11,12 +11,14 @@
 
   var num = function (el, k) { return Number(el.getAttribute('data-' + k)); };
   // data-precio va en dólares (los autos en pesos se convierten); vacío = "Consultar", siempre al final.
+  // data-km vacío = "Km a consultar", siempre al final.
+  var kmDe = function (el) { var v = el.getAttribute('data-km'); return v ? Number(v) : Infinity; };
   var precio = function (el, sinPrecio) { var v = el.getAttribute('data-precio'); return v ? Number(v) : sinPrecio; };
   var SORTS = {
     recientes: function (a, b) { return num(a, 'orden') - num(b, 'orden'); },
     precioAsc: function (a, b) { return precio(a, Infinity) - precio(b, Infinity) || 0; },
     precioDesc: function (a, b) { return precio(b, -Infinity) - precio(a, -Infinity) || 0; },
-    km: function (a, b) { return num(a, 'km') - num(b, 'km'); },
+    km: function (a, b) { return kmDe(a) - kmDe(b) || 0; },
     anio: function (a, b) { return num(b, 'anio') - num(a, 'anio'); }
   };
 

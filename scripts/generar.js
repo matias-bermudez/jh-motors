@@ -141,7 +141,9 @@ function deFila(r) {
     marca: r.marca, modelo, version, anio: r.anio,
     titulo: `${r.marca} ${modelo} ${r.anio}`,
     nombreLargo: [r.marca, modelo, version, r.anio].filter(Boolean).join(' '),
-    km: r.km || 0, kmFmt: miles(r.km || 0) + ' km',
+    // extra.sin_km: el dueño no sabe los km (campo vacío en el panel). Un 0 escrito es un 0 km.
+    km: r.km || 0, sinKm: x.sin_km === true,
+    kmFmt: x.sin_km === true ? 'Km a consultar' : miles(r.km || 0) + ' km',
     carroceria: r.carroceria || { auto: 'Auto', camioneta: 'Camioneta', utilitario: 'Utilitario' }[r.tipo],
     combustible: r.combustible, transmision: r.transmision, marchas: r.marchas,
     motor: r.motor || '', potencia: x.potencia || '', traccion: r.traccion || '',
@@ -354,7 +356,7 @@ function autoLd(a, descripcion) {
     numberOfPreviousOwners: a.duenos || undefined,
     vehicleEngine: a.motor ? { '@type': 'EngineSpecification', name: a.motor } : undefined,
     driveWheelConfiguration: a.traccion || undefined,
-    mileageFromOdometer: { '@type': 'QuantitativeValue', value: a.km, unitCode: 'KMT' },
+    mileageFromOdometer: a.sinKm ? undefined : { '@type': 'QuantitativeValue', value: a.km, unitCode: 'KMT' },
     itemCondition: 'https://schema.org/UsedCondition',
     offers: a.precio ? {
       '@type': 'Offer',
@@ -383,7 +385,7 @@ function card(a, i, raiz) {
   const dato = (ic, t) => `<span style="display: flex; align-items: center; gap: 8px">${ic}${esc(t)}</span>`;
   return `<a class="card" href="${esc(autoHref(a, raiz))}" data-car
   data-marca="${esc(a.marca)}" data-comb="${esc(a.combustible)}" data-caja="${esc(a.transmision)}" data-tipo="${esc(a.carroceria)}"
-  data-precio="${a.dolares ? Math.round(a.dolares) : ''}" data-km="${a.km}" data-anio="${a.anio}" data-orden="${i}"
+  data-precio="${a.dolares ? Math.round(a.dolares) : ''}" data-km="${a.sinKm ? '' : a.km}" data-anio="${a.anio}" data-orden="${i}"
   data-q="${esc((a.marca + ' ' + a.modelo + ' ' + a.version).toLowerCase())}"
   style="display: flex; flex-direction: column; background: #131315; border: 1px solid #232327; border-radius: 16px; overflow: hidden; text-decoration: none; color: #F5F5F4">
 <div class="ph" style="position: relative; aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center">
@@ -642,12 +644,12 @@ ${o.fotos.length
 </div>
 </a>`;
 
-  const descripcion = `${a.nombreLargo}, ${a.kmFmt}, ${a.combustible.toLowerCase()}, ${a.transmision.toLowerCase()}. ${a.precioFmt}.` +
+  const descripcion = `${a.nombreLargo}, ${a.sinKm ? '' : a.kmFmt + ', '}${a.combustible.toLowerCase()}, ${a.transmision.toLowerCase()}. ${a.precioFmt}.` +
     (a.financiable && a.precio ? ' Financiación hasta el 100%.' : '') +
     ` Vení a verlo a JH Motors ${a.sede || 'Toledo y Atlántida'}, Canelones.`;
 
   pagina('auto.html', a.ruta, {
-    titulo: esc(`${a.nombreLargo} · ${a.kmFmt} · ${a.precioFmt} | JH Motors`),
+    titulo: esc(`${[a.nombreLargo, !a.sinKm && a.kmFmt, a.precioFmt].filter(Boolean).join(' · ')} | JH Motors`),
     ogTitulo: esc(`${a.nombreLargo} — ${a.precioFmt}`),
     descripcion: esc(descripcion),
     ogTipo: 'product',
