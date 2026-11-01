@@ -1,61 +1,60 @@
-# JH Motors — Web
+# JH Motors — web
 
-Web de la automotora: catálogo con filtros, detalle de cada auto, "Vendé tu auto" (arma el mensaje y lo abre en WhatsApp) y un panel `/admin` para cargar autos.
+Web de JH Motors (Toledo y Atlántida, Canelones): catálogo con filtros, ficha de cada auto con "Me interesa este auto" por WhatsApp y "Vendé tu auto" (arma el mensaje y lo abre en WhatsApp). El dueño carga los autos desde un panel (`/admin/`).
 
-- **Diseño:** el original de Claude Design está en `design/` (el HTML empaquetado y las tres pantallas desarmadas). Las vistas en `views/` lo copian tal cual.
-- **Stack:** Node.js (≥ 22.13) + Express + EJS. Base de datos SQLite incluida en Node (archivo `data/jhmotors.db`). Las fotos se guardan en `data/uploads/` y se optimizan con `sharp` (WebP en 3 tamaños + JPG para la vista previa en WhatsApp).
-- **Sin cuentas de usuarios:** el público no se registra. El admin entra con el usuario y la contraseña del `.env`.
+Es parte de la **Plataforma Automotoras** (`~/Proyectos/plataforma-automotoras`): misma arquitectura y misma base que DN Automóviles.
 
-## Arrancar en tu compu
+**Web:** https://matias-bermudez.github.io/jh-motors/ (cuando el repo sea público y Pages esté activo)
 
-```bash
-npm install
-cp .env.example .env      # y completá ADMIN_PASSWORD y SESSION_SECRET
-npm run seed              # opcional: carga los 12 autos de ejemplo del diseño (sin fotos)
-npm run dev               # http://localhost:3000  ·  admin: http://localhost:3000/admin
-```
+## Cómo funciona
 
-## Configuración
+- La web es estática. `scripts/generar.js` (Node, sin dependencias) arma todas las páginas en `_site/`, una por auto, con SEO.
+- Los autos y las fotos viven en Supabase (base compartida, `concesionaria = 'jh-motors'`). La web no la consulta en vivo: el generador baja autos y fotos y escribe el HTML final.
+- GitHub Actions (`.github/workflows/publicar.yml`) regenera y publica en GitHub Pages en cada push a `main`, cada vez que se guarda un auto en el panel (aviso desde Supabase) y, de respaldo, cada 15 minutos si cambiaron los autos.
+- Contacto 100 % por WhatsApp: los botones son links `https://wa.me/<número>?text=<mensaje armado>`.
 
-| Qué | Dónde |
+## Configuración (`js/config.js`)
+
+| Qué | Campo |
 | --- | --- |
-| Número de WhatsApp (pruebas / real) | `WHATSAPP_NUMBER` en `.env` — `59891969322` (pruebas) → `59899571202` (JH Motors) |
-| Dirección pública de la web | `SITE_URL` en `.env` (va en los links que se mandan por WhatsApp, el sitemap y Google) |
-| Usuario y contraseña del admin | `ADMIN_USER` / `ADMIN_PASSWORD` en `.env` |
-| Direcciones, horarios y mapa de los locales | `src/config.js` → `sedes` (hoy tienen `[DIRECCIÓN …]` y `[HORARIO]`) |
-| Textos de números ("+130 autos", "85 mil seguidores") | `src/config.js` → `stockText` y `stats` |
+| Número de WhatsApp de todos los botones | `whatsapp` / `whatsappLabel` — hoy el de prueba `59891969322` / `091 969 322`; el de JH Motors es `59899571202` / `099 571 202` |
+| Direcciones, horarios y mapa de los locales | `sedes` (hoy con `[DIRECCIÓN …]` y `[HORARIO]` del diseño; vacío = no se muestra) |
+| Textos de números ("+130 autos", "85 mil seguidores") | `stockTexto` y `numeros` |
+| Instagram, aviso de "único WhatsApp oficial" | `instagram`, `avisoOficial` |
+| Conexión a la base | `supabaseUrl`, `supabaseKey` (clave pública), `concesionaria` |
+| URL pública | `sitio` (con `/` al final) |
+| Que Google indexe la web | `indexar` (false hasta lanzar = `noindex`) |
 
-Al cambiar el `.env` o `src/config.js` hay que reiniciar el servidor.
+Después de cambiar algo, push a `main` y se publica solo.
 
-## Cómo se contacta la gente
+## Panel (`/admin/`)
 
-- **Detalle del auto → "Me interesa este auto"**: abre WhatsApp con  
-  `Hola JH Motors, me interesa este auto: Volkswagen T-Cross Highline 1.4 TSI 2022 (Ref. JH-0009). ¿Sigue disponible?` + el link de la publicación.  
-  "Agendar visita" y "Pedir cuotas" hacen lo mismo con otro texto.
-- **Vendé tu auto**: el formulario arma el mensaje completo (vista previa en vivo) y el botón lo abre en WhatsApp. La página le pide a la persona que mande las fotos en ese mismo chat.
-
-## Panel de administración (`/admin`)
-
-- Cargar un auto: marca, modelo, versión, año, km, carrocería, combustible, transmisión, motor, potencia, tracción, puertas, color, departamento donde está empadronado, precio (USD o $U), local, financiable, permuta, estado y documentación, equipamiento (tildando o escribiendo) y comentarios.
-- Fotos: se suben varias juntas desde el celular o la compu; se achican solas. Se ordenan con flechas y la primera es la portada.
-- Estados: **disponible**, **reservado** (sigue en el catálogo con un cartel) y **vendido** (sale del catálogo y de Google, pero el link sigue abriendo con el aviso "ya se vendió").
+- Se entra con email y contraseña de Supabase. El usuario tiene que estar en la tabla `admins` con `jh-motors` (o `*`).
+- Carga y edición de autos con todos los datos: marca, modelo, versión, año, km, carrocería, combustible, transmisión, marchas, motor, potencia, tracción, puertas, color, departamento donde está empadronado, precio (U$S o $; vacío = "Consultar"), local, financiable, permuta, estado y documentación, equipamiento y comentarios.
+- Fotos: se achican en el navegador (1600 px + miniatura de 640 px) y se suben a `fotos/jh-motors/`. Se ordenan con flechas; la primera es la portada.
+- Estados: **disponible**, **reservado** (sigue en el catálogo con el cartel) y **vendido** (sale de la web; su link cae en el 404). "Se ve en la web" sin tildar = borrador.
 - **Destacado**: la foto de ese auto aparece grande en el inicio.
 
-## SEO incluido
+Lo propio de JH que no es una columna de la base va en `autos.extra`: `version`, `potencia`, `sede`, `financiable`, `padron`, `service`, `documentacion`, `llaves`, `garantia`. La columna `modelo` guarda modelo + versión ("T-Cross Highline 1.4 TSI").
 
-- Páginas generadas en el servidor (Google lee todo sin ejecutar JavaScript).
-- URLs legibles: `/autos/volkswagen-t-cross-highline-1-4-tsi-2022-9`. Si se edita marca o modelo, el link viejo redirige al nuevo.
-- `<title>` y descripción propios en cada auto, con precio, km y ubicación (Toledo / Atlántida, Canelones).
-- Datos estructurados schema.org: `AutoDealer` con los dos locales, `Car` + `Offer` en cada auto (precio, moneda, disponibilidad), `BreadcrumbList` e `ItemList` del catálogo.
-- Open Graph con la foto del auto: el link compartido por WhatsApp/Facebook muestra la foto y el precio.
-- `/sitemap.xml` (con las fotos) y `/robots.txt` automáticos. El admin no se indexa.
-- Fuentes del diseño alojadas en la propia web, imágenes WebP con `srcset` y carga diferida.
+## Autos de ejemplo
 
-**Cuando la web esté online:** dar de alta el dominio en [Google Search Console](https://search.google.com/search-console) y enviar `https://TU-DOMINIO/sitemap.xml`; y crear/vincular el perfil de Google Business de cada local con el link de la web (es lo que más pesa en búsquedas como "automotora Atlántida").
+`supabase/ejemplos.sql`: los 12 autos del diseño (sin fotos). Se pegan en Supabase → SQL Editor → Run. El mismo archivo trae comentado el `delete` que borra solo esos 12.
 
-## Pasar a producción
+## Probar en local
 
-1. Un servidor con disco persistente (VPS, Railway, Render con disco, Fly.io, etc.) — la base y las fotos viven en `data/` (o en `DATA_DIR`). **Respaldá esa carpeta.**
-2. `.env` con `SITE_URL=https://tu-dominio`, `WHATSAPP_NUMBER=59899571202`, contraseña fuerte y `SESSION_SECRET`.
-3. `npm install --omit=dev && NODE_ENV=production npm start` detrás de HTTPS.
-4. Para arrancar sin los autos de ejemplo: no corras `npm run seed` (o borrá la carpeta `data/` antes de cargar los reales).
+```sh
+node scripts/generar.js --local
+python3 -m http.server 8793 -d _site   # → http://localhost:8793
+```
+
+Para probar sin la base: `AUTOS_JSON=filas.json node scripts/generar.js --local` (filas con el mismo formato que devuelve la API de Supabase).
+
+## SEO
+
+- Una página por auto en `/autos/<slug>/` con title, description, canonical y og:image propios (la foto se ve al compartir el link).
+- JSON-LD: `AutoDealer` con los dos locales, `WebSite` e `ItemList` en el inicio; `Car` + `Offer` (moneda real) + `BreadcrumbList` en cada auto.
+- `sitemap.xml` (con las fotos) y `robots.txt`. `noindex` en todas las páginas mientras `indexar` sea false.
+- Fuentes del diseño alojadas en la propia web, `?v=<hash>` en css y js.
+
+**Al lanzar:** número de JH en `whatsapp`, `indexar: true`, dar de alta la web en Google Search Console con el sitemap y vincular el perfil de Google Business de cada local.
