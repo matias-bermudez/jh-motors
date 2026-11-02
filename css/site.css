@@ -48,6 +48,11 @@ a{color:#FF3B30}a:hover{color:#FF6A5F}
 
 /* Fotos que reemplazan a los placeholders del diseño */
 .cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* Portada del inicio y galería: la foto entra entera (las de JH son verticales) y atrás va la misma, desenfocada. */
+.cover--entera{object-fit:contain}
+/* Tarjetas: las fotos verticales tienen el auto en la mitad de abajo; se encuadra más abajo para no cortar las ruedas. */
+.cover:not(.cover--entera){object-position:50% 72%}
+.cover-fondo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(24px) brightness(.4);transform:scale(1.15)}
 
 [hidden]{display:none !important}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
