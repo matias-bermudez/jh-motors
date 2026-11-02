@@ -487,8 +487,7 @@ function generarInicio() {
 
   const hero = destacado
     ? `<a class="ph" href="${esc(autoHref(destacado, raiz))}" style="flex: 1 1 520px; min-width: 0; aspect-ratio: 4 / 3; border-radius: 20px; border: 1px solid #232327; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; text-decoration: none">
-<img class="cover-fondo" src="${esc(raiz + destacado.fotos[0].chica)}" alt="" aria-hidden="true">
-<img class="cover cover--entera" src="${esc(raiz + destacado.fotos[0].grande)}" srcset="${esc(raiz + destacado.fotos[0].chica)} 640w, ${esc(raiz + destacado.fotos[0].grande)} 1600w" sizes="(max-width: 1100px) 100vw, 620px" alt="${esc(destacado.nombreLargo)}" width="1600" height="1200" fetchpriority="high">
+<img class="cover" src="${esc(raiz + destacado.fotos[0].grande)}" srcset="${esc(raiz + destacado.fotos[0].chica)} 640w, ${esc(raiz + destacado.fotos[0].grande)} 1600w" sizes="(max-width: 1100px) 100vw, 620px" alt="${esc(destacado.nombreLargo)}" width="1600" height="1200" fetchpriority="high">
 <span style="position: absolute; left: 20px; bottom: 16px; display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: rgba(10,10,11,0.85); font-size: 13px; color: #E4E4E7">
 ${icon.camera(16)}
 Destacado: ${esc(destacado.titulo)} · ${destacado.precioFmt}
@@ -566,8 +565,7 @@ function generarAuto(a) {
   // Galería
   let principal;
   if (fotos.length) {
-    principal = `<img class="cover-fondo" data-fondo src="${esc(raiz + fotos[0].chica)}" alt="" aria-hidden="true">
-<img class="cover cover--entera" data-main src="${esc(raiz + fotos[0].grande)}" srcset="${esc(raiz + fotos[0].chica)} 640w, ${esc(raiz + fotos[0].grande)} 1600w" sizes="${SIZES}" alt="${esc(a.nombreLargo)} — foto 1" width="1600" height="1000" fetchpriority="high">
+    principal = `<img class="cover" data-main src="${esc(raiz + fotos[0].grande)}" srcset="${esc(raiz + fotos[0].chica)} 640w, ${esc(raiz + fotos[0].grande)} 1600w" sizes="${SIZES}" alt="${esc(a.nombreLargo)} — foto 1" width="1600" height="1000" fetchpriority="high">
 <span style="position: absolute; right: 18px; top: 16px; padding: 6px 12px; border-radius: 999px; background: rgba(10,10,11,0.85); font-size: 13px; color: #E4E4E7" data-counter>1 / ${fotos.length}</span>`;
     if (fotos.length > 1) {
       const flecha = (lado, label, attr, ic) => `<button type="button" class="arrow" aria-label="${label}" ${attr} style="position: absolute; ${lado}: 16px; top: 50%; margin-top: -24px; width: 48px; height: 48px; border-radius: 999px; border: 0; background: rgba(10,10,11,0.85); color: #F5F5F4; display: flex; align-items: center; justify-content: center">

@@ -2,7 +2,6 @@
 (function () {
   var root = document.querySelector('[data-gallery]');
   var main = root && root.querySelector('[data-main]');
-  var fondo = root && root.querySelector('[data-fondo]');
   if (!main) return;
   var thumbs = Array.prototype.slice.call(root.querySelectorAll('[data-thumb]'));
   var counter = root.querySelector('[data-counter]');
@@ -16,7 +15,6 @@
     var t = thumbs[sel];
     main.srcset = t.getAttribute('data-chica') + ' 640w, ' + t.getAttribute('data-grande') + ' 1600w';
     main.src = t.getAttribute('data-grande');
-    if (fondo) fondo.src = t.getAttribute('data-chica');
     main.alt = baseAlt + ' — foto ' + (sel + 1);
     counter.textContent = (sel + 1) + ' / ' + total;
     thumbs.forEach(function (b, j) { b.setAttribute('aria-pressed', String(j === sel)); });
