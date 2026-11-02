@@ -45,3 +45,4 @@ Capturas: Playwright de `/Users/matibermudez/Proyectos/TapStore-listas/node_modu
 - Pendiente (#4): registrar `sitio`/`repo` en `concesionarias`, sumar el repo al token de GitHub, usuario del dueño.
 - 2026-11-01: primeros autos reales (VW New Beetle 2017, GWM ORA 03 2026); se borran los 12 de ejemplo. Km vacío en el panel = "Km a consultar" (`extra.sin_km`, sin km en el JSON-LD); un 0 escrito es 0 km. El local se puede dejar "Sin indicar".
 - 2026-11-01: el año también es opcional (la base acepta `anio` null): "A consultar" en la web, al final al ordenar por año, slug sin año.
+- 2026-11-02: fotos recortadas a mano a 4:3 (las de Instagram de JH son verticales y los recuadros apaisados cortaban el auto). Galería de la ficha en 4:3. Pendiente: si el dueño sube fotos verticales desde el panel, se recortan al medio.
