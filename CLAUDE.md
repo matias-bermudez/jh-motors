@@ -3,7 +3,7 @@
 Web para **JH Motors** (automotora, locales en Toledo y Atlántida, Canelones). Diseño de Claude Design en `design/` (no cambiarlo).
 
 - Repo: https://github.com/matias-bermudez/jh-motors (público: GitHub Pages gratis no publica repos privados)
-- Web: https://matias-bermudez.github.io/jh-motors/
+- Web: https://jh-motors.pages.dev/
 - Seguimiento: issues del repo. Los commits cierran issues con `Closes #N`.
 
 ## Plataforma Automotoras

@@ -37,7 +37,7 @@ window.JH_CONFIG = {
   concesionaria: 'jh-motors',
 
   // URL pública del sitio, con / al final. Si se compra dominio, cambiarla acá.
-  sitio: 'https://matias-bermudez.github.io/jh-motors/',
+  sitio: 'https://jh-motors.pages.dev/',
 
   // false = Google no indexa la web (meta noindex). Pasar a true recién al lanzar,
   // con el número de WhatsApp de JH Motors.
